@@ -12,8 +12,6 @@ class ControllerTest(Controller):
         self.setCanInstantDrop(False);
         self.setIsObserved(False)
         self.rotspeed = 0.5
-        self.nb_sensors == 8
-       
 
     def reset(self):
         print("I'm initialised")
@@ -24,25 +22,21 @@ class ControllerTest(Controller):
         camera_dist = self.world_model.camera_pixel_distance
         camera_max_range = self.world_model.maxdistcamera
         camera_ids = self.world_model.camera_objects_ids
-        must_flee = False  # have we encountered a wall and must prioritise avoiding obstacle
-        if camera_dist[1] < camera_max_range:  # if we see something on our right
-            if self.get_object_at(1) == 4:  # And it is food
-                self.set_rotation(-self.rotspeed)  # GO TOWARD IT
+        if camera_dist[1] < camera_max_range:  # if we see something on our left
+            if self.get_object_at(1) == 9:  # And it is food
+                  self.set_rotation(-0.5)  # turn left
             else:
-                self.set_rotation(self.rotspeed)  # flee it
-                must_flee = True
+                self.set_rotation(0.5) # turn right
         elif camera_dist[2] < camera_max_range:  # if we see something in front of us
-            if self.get_object_at(2) == 4 and not must_flee:  # If we are not avoiding obstacle and it's food
+            if self.get_object_at(2) == 9:
                 self.set_rotation(0)
             else:
-                self.set_rotation(self.rotspeed)  # turn left
-                must_flee = True
+                self.set_rotation(-0.5)  # turn left
         elif camera_dist[3] < camera_max_range:  # Otherwise, if we see something on our right
-            if self.get_object_at(3) == 4 and not must_flee:
-                self.set_rotation(self.rotspeed)  # turn left
+            if self.get_object_at(3) == 9:
+                self.set_rotation(0.5)  # turn right
             else:
-                self.set_rotation(-self.rotspeed)
-                must_flee = True
+                self.set_rotation(-0.5) # turn left
 
         
         maxRampSpeed = 0.3
