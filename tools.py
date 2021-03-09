@@ -16,6 +16,7 @@ def evaluate_network(input_, network):
     for elem in network[:-1]:
         out = np.tanh(out @ elem)
     out = out @ network[-1]  # linear output for last layer
+    out[-1]=round(np.tanh(out[-1]))
     return out
 
 
