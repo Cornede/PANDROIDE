@@ -1,12 +1,13 @@
-from pyroborobo import Controller, PyWorldModel, Pyroborobo
+from pyroborobo import Pyroborobo, Controller
+import numpy as np
 
 
 class ControllerTest(Controller):
-    world_model: PyWorldModel  # Predeclare that world_model is a PyWorldModel for better code completion
 
-    def __init__(self, world_model):
+    def __init__(self, wm):
         # It is *mandatory* to call the super constructor before any other operation to link the python object to its C++ counterpart
-        Controller.__init__(self, world_model)
+        super().__init__(wm)
+        self.arena_size = Pyroborobo.get().arena_size
         self.rob = Pyroborobo.get()
         self.setObjCollected(False);
         self.setCanInstantDrop(False);
@@ -14,37 +15,59 @@ class ControllerTest(Controller):
         self.rotspeed = 0.5
 
     def reset(self):
-        print("I'm initialised")
+        pass
 
     def step(self):  
         self.set_translation(1)
         self.set_rotation(0)
-        camera_dist = self.world_model.camera_pixel_distance
-        camera_max_range = self.world_model.maxdistcamera
-        camera_ids = self.world_model.camera_objects_ids
-        if camera_dist[1] < camera_max_range:  # if we see something on our left
-            if self.get_object_at(1) == 9:  # And it is food
-                  self.set_rotation(-0.5)  # turn left
-            else:
-                self.set_rotation(0.5) # turn right
-        elif camera_dist[2] < camera_max_range:  # if we see something in front of us
-            if self.get_object_at(2) == 9:
-                self.set_rotation(0)
-            else:
-                self.set_rotation(-0.5)  # turn left
-        elif camera_dist[3] < camera_max_range:  # Otherwise, if we see something on our right
-            if self.get_object_at(3) == 9:
-                self.set_rotation(0.5)  # turn right
-            else:
-                self.set_rotation(-0.5) # turn left
-
+        camera_dist = self.get_all_distances()
         
+        # si le robot n'a pas d'objet il va en chercher
+        if (self.getCanCollect() == True):
+            if camera_dist[1] < 1:  # if we see something on our right
+                if self.get_object_at(1) == 9:  # Si c'est une feuille
+                      self.set_rotation(-0.5)  # turn right
+                else:
+                      self.set_rotation(0.5) # on évite si ce n'est pas une feuille
+                      
+            elif camera_dist[2] < 1:  # if we see something in front of us
+                if self.get_object_at(2) == 9: # Si c'est une feuille
+                    self.set_rotation(0)
+                else :
+                    self.set_rotation(0.5)  # On évite si ce n'est pas une feuille
+                    
+            elif camera_dist[3] < 1:  # Otherwise, if we see something on our left
+                if self.get_object_at(3) == 9: # Si c'est une feuille
+                    self.set_rotation(0.5)  # turn left
+                else:
+                    self.set_rotation(-0.5)  # on évite si ce n'est pas une feuille
+                    
+        # Si le robot a un objet il doit se rediriger vers le nid     
+        elif (self.getCanCollect() == False):
+            orient = self.get_closest_landmark_orientation()
+            self.set_rotation(np.clip(orient, -1, 1))
+            self.set_translation(1)
+            pos = self.absolute_position
+            if (pos[0]>445 and pos[0]<455 and pos[1]>845 and pos[1]<855):
+                    self.setObjCollected(False)
+                    #self.setCanCollect(True)
+                    """
+                    if (self.get_distance_at(1) < 1  # if we see something on our left
+                        or self.get_distance_at(2) < 1):  # or in front of us
+                        self.set_rotation(0.5)  # turn right
+                    elif self.get_distance_at(3) < 1:  # Otherwise, if we see something on our right
+                            self.set_rotation(-0.5)  # turn left
+                    """
+                    
+        # Quand le robot est sur la pente 
         maxRampSpeed = 0.3
         p = self.absolute_position
         orientation = self.absolute_orientation
         x = p[0]
         y = p[1]
         if (x > 250 and x < 670 and y > 450 and y < 700 and orientation < 0.0):
+            self.set_translation(maxRampSpeed)
+        if (x > 250 and x < 670 and y > 450 and y < 700 and orientation > 0.0):
             self.set_translation(maxRampSpeed)
             
 # Fonctions de ramassage et dépôt d'objets
@@ -89,7 +112,7 @@ class ControllerTest(Controller):
             print("Can not collect anymore")
             self.setCanCollect(False)
             self.setIsObserved(False)
-            self.etCanDropSlope(True)
+            self.setCanDropSlope(True)
             self.setCanDropNest(True)
             self.setCanInstantDrop(True)
         if (c == False):

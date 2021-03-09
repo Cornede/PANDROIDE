@@ -1,5 +1,6 @@
-from pyroborobo import Controller, PyWorldModel, Pyroborobo, WorldObserver
+from pyroborobo import Pyroborobo, Controller, WorldObserver
 from controllersTest import ControllerTest
+import numpy as np
 
 #Variables globales
 #Zone de jeu
@@ -8,8 +9,8 @@ depotMin = 400
 depotMax = 450
 rampeYMin=450
 rampeYMax=700
-nestYMin=950
-nestYMax=1000
+nestX=450
+nestY=850
 
 
 
@@ -21,6 +22,16 @@ class World_Observer_test(WorldObserver):
         self.rob = Pyroborobo.get()
         self.pointCount = 0
         
+        
+    def init_post(self):
+        
+        arena_size = np.asarray(self.rob.arena_size)
+        landmark = self.rob.add_landmark()
+        landmark.radius = 20
+        landmark.set_coordinates(450,850)
+        landmark.show()
+
+        
     def step_pre(self):
         super().step_pre()
         for c in self.rob.controllers:
@@ -28,10 +39,10 @@ class World_Observer_test(WorldObserver):
             x = p[0]
             y = p[1]
             if(c.getCanInstantDrop()==True):
-                c.setObjCollected(False)
                 ori = c.absolute_orientation
-                if(y>nestYMin and y < nestYMax): # on est dans le nid
-                        print("lacher dans le nid")
+                if(x==nestX and y == nestY): # on est dans le nid
+                        c.setObjCollected(False)
+                        print("Dropped in nest!")
                         self.addPoint(50000)
                 if(y>depotMin and y < rampeYMax):
                         self.addPoint(20000)
