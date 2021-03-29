@@ -86,7 +86,7 @@ class ControllerTest(Controller):
     def getObjCollected(self):
         return self.objCollected
 
-    def getIsObserved(self,c):
+    def getIsObserved(self):
         return self.objObserved
 
 # Fonction set

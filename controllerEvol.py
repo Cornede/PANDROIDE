@@ -16,9 +16,8 @@ class EvolController(Controller):
     def __init__(self, wm):
         Controller.__init__(self, wm)
         self.nb_hiddens = 14
-        self.nb_zones=6
         self.is_holding_obj=False
-        self.weights = [np.random.normal(0, 1, (self.nb_sensors+ self.nb_zones + 3, self.nb_hiddens)),
+        self.weights = [np.random.normal(0, 1, (self.nb_sensors + 4, self.nb_hiddens)),
                         np.random.normal(0, 1, (self.nb_hiddens, 3))]
         self.tot_weights = np.sum([np.prod(layer.shape) for layer in self.weights])
         self.zones=np.zeros(self.nb_zones)
@@ -28,7 +27,7 @@ class EvolController(Controller):
 
     def step(self):
         self.zones=self.get_current_zone()
-        input = np.concatenate((self.get_all_distances(),self.zones,[self.is_holding_obj],[self.absolute_orientation]))
+        input = np.concatenate((self.get_all_distances(),[self.is_holding_obj,self.getIsObserved(),self.getObjCollected(),self.absolute_orientation]))
         out = np.clip(evaluate_network(input, self.weights), -1, 1)
         self.set_translation(out[0])
         self.set_rotation(out[1])
