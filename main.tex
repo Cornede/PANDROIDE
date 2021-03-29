@@ -1,0 +1,131 @@
+%Préambule du document :
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{mindmap}
+
+%Corps du document :
+\begin{document}
+  \center \includegraphics[width=8cm]{logo.png}
+
+\begin{center}
+\textsc{\Large M1 Informatique - Projet ANDROIDE}\\[0.5cm]
+\textsc{\Large  Carnet de bord }\\[0.5cm]
+\textbf{Robotique en essaim et apprentissage: influence du périmètre d'apprentissage et de la récompense} \\[3cm]
+\end{center}
+
+
+\begin{center}
+Cedric Cornede\\[0.3cm]
+Manel Khenifra\\[0.3cm]
+Damien Marillet\\[0.8cm]
+\textbf{Encadrant:}\\
+Nicolas Bredeche \\[0.4cm]
+\end{center}
+
+
+\newpage
+\tableofcontents
+\newpage
+
+\begin{flushleft}
+\section{Introduction}
+Dans le cadre de notre projet, nous nous intéressons à l’estimation de la contribution de chaque robot dans un essaim devant réaliser une tâche fixée au préalable par l’utilisateur. La performance de l’essaim de robots est considérée comme connue, cependant la contribution de chaque robot à cette performance globale est inconnue, et peut varier grandement en fonction du rôle pris par le robot. Par exemple, un robot qui ne fait rien bénéficiera d’une bonne note sans contribuer, au même titre qu’un robot qui réalise une action essentielle. Pour répondre à ce problème, nous nous sommes basés sur une expérience dont le but était de reproduire le comportement des fourmis coupe-feuilles[1] et pour modéliser l’expérience, nous avons utilisé le simulateur Roborobo [2] qui nous permet de modéliser un environnement et des agents pour ensuite réaliser diverses tâches. 
+
+
+\section{Les mots clés retenus}
+
+
+\begin{tikzpicture}[mindmap, grow cyclic, every node/.style=concept, concept color=orange!40, 
+	level 1/.append style={level distance=5cm,sibling angle=90},
+	level 2/.append style={level distance=3cm,sibling angle=45},]
+
+\node{Robotique en essaim et apprentissage}
+	child [concept color=blue!30]{ node {reinforcement learning}
+	        child { node {neuron network}}
+	}
+	child [concept color=yellow!30] { node {evolutionary robotic}
+	        child { node {natural selection}
+	            child { node {environnement adaptation}}
+	        }
+	        child { node {evolution of cooperation}}
+	}
+	child [concept color=teal!30] { node {robot swarms}
+	        child { node {swarm intelligence}
+	            child { node {task partitioning}}
+	            child { node {collective behaviours}
+	                child { node {reward parameters}}
+	            }
+	        }
+	        child { node {autonomous agents}}
+	}
+;
+\end{tikzpicture}
+
+\section{Descriptif de la recherche documentaire}
+Nous avons commencé par le visionnage des vidéos qui nous ont orienté vers les différents outils de recherches. Nous avons dans un premier temps commencé par la recherche de mots clés pour nous familiariser avec le sujet puis nous avons utilisé le moteur de recherche Google avec les différents services qu'il offre tel que Google Scholar. Cela nous a permis d'accéder à plusieurs pages web à partir des mots clés, des auteurs ainsi que les titres d'articles fournis par notre encadrant, on regarde où ces derniers ont été cité puis on s'intéresse aux articles cités au moins plus de dix fois. Nous avons aussi vu les articles écrits par notre encadrant lui-même.
+
+\section{Bibliographie produite dans le cadre du projet}
+Norme utilisée : IEEE 
+
+\vspace*{7mm}
+
+[1] E. Ferrante, A. E. Turgut, E. Duéñez-Guzmán, M. Dorigo et T. Wenseleers, « Evolution of Self-Organized Task Specialization in Robot Swarms », PLOS Computational Biology, t.11, n8, p. 1–21, août 2015.doi:10.1371/journal.pcbi.1004273.adresse:https://doi.org/10.1371/journal.pcbi.1004273.
+\vspace*{7mm}
+
+[2] N. Bredèche, J. Montanier, B. Weel et E. Haasdijk, « Roborobo! a Fast Robot    Simulator for Swarm and Collective Robotics », CoRR, t. abs/1304.2888, 2013. arXiv : 1304.2888. adresse: http://arxiv.org/abs/1304.2888.
+\vspace*{7mm}
+
+[3]  Van Essche, Steven Van, Eliseo Ferrante, Ali Emre Turgut, Rinde Van Lon, Tom Holvoet, et Tom Wenseleers. « Environmental factors promoting the evolution of recruitment strategies in swarms of foraging robots ». In Swarm 2015. Kyoto, Japan, 2015. https://hal.archives-ouvertes.fr/hal-01405907.
+\vspace*{7mm}
+
+[4] E. Haasdijk, N. Bredeche, et A. E. Eiben, « Combining Environment-Driven Adaptation and Task-Driven Optimisation in Evolutionary Robotics », PLOS ONE, vol. 9, no 6, p. e98466, juin 2014, doi: 10.1371/journal.pone.0098466.
+\vspace*{7mm}
+
+[5]	N. Bredeche, J.-M. Montanier, W. Liu, et A. F. T. Winfield, « Environment-driven distributed evolutionary adaptation in a population of autonomous robotic agents », Math. Comput. Model. Dyn. Syst., vol. 18, no 1, p. 101‑129, févr. 2012, doi: 10.1080/13873954.2011.601425.
+\vspace*{7mm}
+
+[6] X. Deng et C. H. Papadimitriou, « On the Complexity of Cooperative Solution Concepts »,Mathematics of Operations Research, t. 19, no 2, p. 257–266, 1994. doi : 10.1287/moor.19.2.257. eprint : https://doi.org/10.1287/moor.19.2.257.adresse : https://doi.org/10.1287/moor.19.2.257.
+\vspace*{7mm}
+
+[7] P. Stone, G. A. Kaminka, S. Kraus et J. S. Rosenschein, « Ad Hoc Autonomous Agent Teams : Collaboration without Pre-Coordination », in Proceedings of the Twenty-Fourth Conference on Artifcial Intelligence, juil. 2010.
+\vspace*{7mm}
+
+[8] P. MacAlpine et P. Stone, « Evaluating Ad Hoc Teamwork Performance in Drop-In Player Challenges », in AAMAS Multiagent Interaction without Prior Coordination (MIPC) Workshop, Sao Paulo, Brazil, mai 2017. adresse : http://www.cs.utexas.edu/users/ailab/?macalpine:mipc17.
+\vspace*{7mm}
+
+[9]	L. Bayındır, « A review of swarm robotics tasks », Neurocomputing, vol. 172, p. 292‑321, janv. 2016, doi: 10.1016/j.neucom.2015.05.116.
+
+
+
+
+
+
+\section{Evaluation des sources}
+ \subsection{Evalutation de la source 3}
+ 
+\textit{ Environmental factors promoting the evolution of recruitment strategies in swarms of foraging robots} 
+ 
+ La source, publiée le 30 novembre 2016 et a été modifié pour la dernière fois le 22 février 2019. L'article est rédigé en anglais et est écrit par des chercheurs en informatique dont Eliseo Ferrante dont les recherches portent sur la robotique en essaim et qui est également à l'origine de l'article[1] sur lequelle nous nous basons principalement pour notre projet. Cet article se place dans le cadre d'une expérience de modélisation de recherche de nourriture à ramener au nid ( comme dans le cadre de notre projet) et porte sur l'influence de l'environnement par rapport à différentes méthodes de recherche impliquant ou non une cooprération dans l'essaim de robots. Cette comparaison est faite sur la quantité de nourritures ramenée au nid. L'article a pour objectif de montrer que les facteurs environnementaux jouent un role clé dans l'évolution de stratégies complexes de coopération et que la stratégie optimal n'est pas la meme en fonction des caractéristiques de l'environnement. Il touche un aspect plus qu'important de notre projet tout en présentant une modélisation d'un essaim de robot très proche de celle de notre projet.
+
+\subsection{Evalutation de la source 4}
+\textit{Combining Environment-Driven Adaptation and Task-Driven Optimisation in Evolutionary Robotics}
+
+La source, publiée le 5 juin 2014 et qui n'a pas été modifié depuis, est un article rédigé en anglais et écrit par des chercheurs en informatique dont Nicolas Bredeche, notre encadrant. Il a été édité par Eleni Vasilak, également chercheur en informatique.
+
+L'article porte sur l'un des principaux défis auxquels les systèmes robotiques sont confrontés, à savoir que les robots doivent satisfaire à deux séries d'exigences. Premièrement, ils doivent continuer à fonctionner de manière fiable dans leur environnement (viabilité), et deuxièmement, ils doivent exécuter avec compétence les tâches spécifiées par l'utilisateur (utilité).
+
+Les expériences menées avec des essaims robotisés montrent que cela favorise un comportement axé sur la tâche sans compromettre l'adaptation à l'environnement. Tout cela porte sur des informations d’un niveau spécialisé en relation avec notre sujet.
+
+ \subsection{Evalutation de la source 5}
+\textit{Environment-driven distributed evolutionary adaptation in a population of autonomous robotic agents}
+
+L'article, publié le 1er août 2011 est un article en anglais écrit par des chercheurs en informatique et robotique français ( Nicolas Bredeche -notre encadrant- et Jean-Marc Montanier) et anglais ( Wenguo Liu et Alan F.T. Winfield ).
+
+C'est une étude des algorithmes d'adaptation évolutive pouvant être implémenter sur de réels systèmes de robots. Notamment avec l'implémentation de l'algorithme mEDEA facilement implémentable qui pourra être utilisé dans le cadre de notre projet ou servir d'inspiration. Un des axes de l'étude porte sur l'émergence de consensus dans les systèmes d'agents autonomes en essaim et l'impact de la taille de l'essaim ( influencé par les ressources que le groupe a à disposition) sur les types de stratégies développées par les groupes d'agents. Ces résultats vont pouvoir nous aider à mieux comprendre l'influence de notre environnement pour notre simulation dans le cadre de notre projet.
+L'article est cité par 56 autres publications du domaine ce qui peut-être vu comme un signe de bonne qualité et il fait référence à 40 articles sur la robotique en essaim et les algorithmes évolutifs notamment, qui sont aussi les thèmes clefs de notre projet actuel.
+
+\end{flushleft}
+\end{document}
