@@ -13,7 +13,8 @@ from WorldObserverEvol import *
 from tools import *
 import matplotlib.pyplot as plt
 
-from custom.objects import SwitchObject, GateObject
+from objects import SwitchObject, UWallObject, Feuille
+
 
 def main():
     nbgen = 1000
@@ -25,7 +26,7 @@ def main():
         #world_observer_class=WorldObserverEvol,
         controller_class=EvolController,
         agent_observer_class=EvolObserver,
-        object_class_dict={'gate': GateObject, 'switch': SwitchObject}
+        object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille}
     )
 
     rob.start()
