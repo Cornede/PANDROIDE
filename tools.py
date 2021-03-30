@@ -9,6 +9,8 @@ Created on Sun Mar  7 13:02:00 2021
 
 import numpy as np
 from pyroborobo import Pyroborobo
+import scipy
+import scipy.stats
 from scipy.stats import rankdata
 
 def evaluate_network(input_, network):

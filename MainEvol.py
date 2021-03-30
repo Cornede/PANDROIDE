@@ -11,26 +11,30 @@ from agentObserverEvol import *
 from controllerEvol import *
 from WorldObserverEvol import *
 from tools import *
+import matplotlib
 import matplotlib.pyplot as plt
 
 from custom.objects import SwitchObject, GateObject
+from objects import SwitchObject, UWallObject, Feuille
 
 def main():
-    nbgen = 1000
+    nbgen = 10
     nbiterpergen = 400
     plt.show()
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
         "config/test.properties",
-        #world_observer_class=WorldObserverEvol,
         controller_class=EvolController,
+        world_observer_class=WorldObserverEvol,
         agent_observer_class=EvolObserver,
-        object_class_dict={'gate': GateObject, 'switch': SwitchObject}
+        object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille}
     )
 
     rob.start()
     for igen in range(nbgen):
         print("*" * 10, igen, "*" * 10)
+        ## Pour tester une solution candidate(les poids) il faudrait faire
+        ## une moyenne sur plusieurs expériences et pas que sur une 
         stop = rob.update(nbiterpergen)
         if stop:
             break
@@ -45,6 +49,8 @@ def main():
         reset_agent_observers(rob)
 
     plt.plot(np.arange(len(performance_list)),performance_list)
+    plt.xlabel("génération")
+    plt.ylabel("performance")
     plt.show()
     
 if __name__ == "__main__":
