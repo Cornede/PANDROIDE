@@ -14,8 +14,13 @@ from tools import *
 import matplotlib
 import matplotlib.pyplot as plt
 
+<<<<<<< HEAD
 from custom.objects import SwitchObject, GateObject
 from objects import SwitchObject, UWallObject, Feuille
+=======
+from objects import SwitchObject, UWallObject, Feuille
+
+>>>>>>> e2f8a5d661ff1901da8251edcdb5d26ee4096ceb
 
 def main():
     nbgen = 10
