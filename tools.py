@@ -35,6 +35,10 @@ def get_fitnesses(rob: Pyroborobo):
         fitnesses.append(observer.fitness)
     return fitnesses
 
+def get_global_fitnesses(rob: Pyroborobo):
+    global_fitnesses = rob.world_observer.global_fit
+    return global_fitnesses
+
 
 def fitprop(weights, fitnesses):
     adjust_fit = rankdata(fitnesses)

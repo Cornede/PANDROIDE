@@ -27,6 +27,7 @@ class WorldObserverEvol(WorldObserver):
         super().__init__(world)
         self.rob = Pyroborobo.get()
         self.global_fit = 0
+        self.pointCount = 0
         
     def init_post(self):
         
@@ -53,6 +54,7 @@ class WorldObserverEvol(WorldObserver):
                         
     def addPoint(self,p):
         self.global_fit=self.global_fit+p
+        self.pointCount+= p
    
         
     def step_post(self):

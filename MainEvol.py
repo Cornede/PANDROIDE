@@ -14,13 +14,9 @@ from tools import *
 import matplotlib
 import matplotlib.pyplot as plt
 
-<<<<<<< HEAD
-from custom.objects import SwitchObject, GateObject
-from objects import SwitchObject, UWallObject, Feuille
-=======
+
 from objects import SwitchObject, UWallObject, Feuille
 
->>>>>>> e2f8a5d661ff1901da8251edcdb5d26ee4096ceb
 
 def main():
     nbgen = 10
@@ -45,9 +41,11 @@ def main():
             break
         weights = get_weights(rob)
         fitnesses = get_fitnesses(rob)
+        global_fitnesses = get_global_fitnesses(rob)
         
         performance_list.append(np.sum(fitnesses))
         print("fit ="+str(performance_list[-1]))
+        
 
         new_weights = fitprop(weights, fitnesses)
         apply_weights(rob, new_weights)
