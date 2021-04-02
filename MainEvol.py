@@ -19,7 +19,7 @@ from objects import SwitchObject, UWallObject, Feuille
 
 
 def main():
-    nbgen = 10
+    nbgen = 30
     nbiterpergen = 400
     plt.show()
     performance_list=[]
@@ -41,6 +41,7 @@ def main():
             break
         weights = get_weights(rob)
         fitnesses = get_fitnesses(rob)
+ 	#on pourra utiliser la global fit pour faire varier la variance sigma de fitprop en fonction de si la génération s'est améliorer ou non.
         global_fitnesses = get_global_fitnesses(rob)
         
         performance_list.append(np.sum(fitnesses))

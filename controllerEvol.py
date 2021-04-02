@@ -18,9 +18,9 @@ class EvolController(Controller):
         self.nb_hiddens = 14
         self.nb_zones=6
         
-        self.is_holding_obj=False
-        self.setObjCollected(False);
-        self.setCanInstantDrop(False);
+        self.setCanCollect(False)
+        self.setObjCollected(False)
+        self.setCanInstantDrop(False)
         self.setIsObserved(False)
         
         self.weights = [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
@@ -33,14 +33,14 @@ class EvolController(Controller):
         pass
 
     def step(self):
-
+        self.lookForFood()
 
         input = np.concatenate((self.get_all_distances(),[self.getIsObserved(),self.getObjCollected(),self.absolute_orientation]))
 
         out = np.clip(evaluate_network(input, self.weights), -1, 1)
         self.set_translation(out[0])
         self.set_rotation(out[1])
-        self.is_holding_obj=out[2] #depot ou non d objet
+        self.setCanCollect(out[2])#depot ou non d objet
         
         # Quand le robot est sur la pente 
         maxRampSpeed = 0.3
@@ -73,8 +73,15 @@ class EvolController(Controller):
         # assert that we have consume all the weights needed
         assert (j == self.tot_weights)
         assert (j == len(weights))
-
-
+        
+    def lookForFood(self):
+        camera_dist = self.get_all_distances()
+        for i in range(len(camera_dist)):
+            if camera_dist[i] < 1:  # if we see something
+                if self.get_object_at(1) != -1:  # And it is food
+                    self.setIsObserved(True)
+                    break
+        
 	# Fonctions de ramassage et dépôt d'objets
     def getCanCollect(self):
         return self.canCollect

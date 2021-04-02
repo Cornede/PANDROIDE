@@ -27,3 +27,9 @@ class EvolObserver(AgentObserver):
             print(speed, rotspeed, dists)
             print(fitdelta)
         self.fitness += fitdelta
+	if c.getObjCollected(): #l'agent a collecte un objet
+		self.fitness+=10000
+
+
+
+

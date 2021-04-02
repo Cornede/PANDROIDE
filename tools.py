@@ -40,7 +40,7 @@ def get_global_fitnesses(rob: Pyroborobo):
     return global_fitnesses
 
 
-def fitprop(weights, fitnesses):
+def fitprop(weights, fitnesses,sigma=0.01):
     adjust_fit = rankdata(fitnesses)
     # adjust_fit = np.clip(fitnesses, 0.00001, None)
     normfit = adjust_fit / np.sum(adjust_fit)
@@ -48,7 +48,7 @@ def fitprop(weights, fitnesses):
     new_weights_i = np.random.choice(len(weights), len(weights), replace=True, p=normfit)
     new_weights = np.asarray(weights)[new_weights_i]
     # mutate
-    new_weights_mutate = np.random.normal(new_weights, 0.01)
+    new_weights_mutate = np.random.normal(new_weights, sigma)
     return new_weights_mutate
 
 
