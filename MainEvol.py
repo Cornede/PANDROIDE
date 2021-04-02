@@ -20,7 +20,7 @@ from objects import SwitchObject, UWallObject, Feuille
 
 def main():
     nbgen = 30
-    nbiterpergen = 400
+    nbiterpergen = 200
     plt.show()
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
