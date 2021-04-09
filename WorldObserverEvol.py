@@ -64,13 +64,8 @@ class WorldObserverEvol(WorldObserver):
     def step_post(self):
        # on récupère la liste des robots
        for c in self.rob.controllers:
-<<<<<<< HEAD
-            if c.objCollected :
-                self.global_fit+=100
-=======
             if c.getCanCollect():
                 self.global_fit+=10
             if c.getObjCollected():
                 self.global_fit+=1000
->>>>>>> b0a204e65ccf2cd278b796c14f4c863a14f9c9c5
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
