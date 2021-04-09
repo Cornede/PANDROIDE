@@ -11,6 +11,7 @@ import numpy as np
 
 class EvolObserver(AgentObserver):
 
+<<<<<<< HEAD
     def __init__(self, wm):
         super().__init__(wm)
         self.fitness = 0
@@ -35,3 +36,28 @@ class EvolObserver(AgentObserver):
             self.fitness+=2000
         
         
+=======
+	def __init__(self, wm):
+		super().__init__(wm)
+		self.fitness = 0
+
+	def reset(self):
+		self.fitness = 0
+
+	def step_post(self):
+		speed = self.controller.translation
+		rotspeed = np.abs(self.controller.rotation)
+		dists = np.asarray(self.controller.get_all_distances())
+		fitdelta = 5 * speed + np.min(dists) + 4 * np.exp(-10 * rotspeed)
+		if np.random.rand() < 0.0001:
+		    print(speed, rotspeed, dists)
+		    print(fitdelta)
+		self.fitness += fitdelta
+		#l'agent a collecte un objet
+		if self.controller.getObjCollected(): 
+			self.fitness+=10000
+
+
+
+
+>>>>>>> b0a204e65ccf2cd278b796c14f4c863a14f9c9c5
