@@ -72,11 +72,13 @@ class EvolController(Controller):
         assert (flat_layers.shape == (self.tot_weights,))
         return flat_layers
 
+    
     def set_weights(self, weights):
         j = 0
         for i, elem in enumerate(self.weights):
             shape = elem.shape
             size = elem.size
+            #self.weights[i] = np.array(elem).reshape(shape)
             self.weights[i] = np.array(weights[j:(j + size)]).reshape(shape)
             j += size
         # assert that we have consume all the weights needed
