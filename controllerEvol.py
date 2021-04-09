@@ -28,6 +28,9 @@ class EvolController(Controller):
         self.tot_weights = np.sum([np.prod(layer.shape) for layer in self.weights])
         self.zones=np.zeros(self.nb_zones)
 
+    def get_random_weights(self):
+        return [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
+                np.random.normal(0, 1, (self.nb_hiddens, 3))]
         
     def reset(self):
         pass

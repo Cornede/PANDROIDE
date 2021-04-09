@@ -63,7 +63,17 @@ def apply_weights(rob, weights):
     for ctl, weight in zip(rob.controllers, weights):
         ctl.set_weights(weight)
 
-
+def apply_weight_clonal(rob, weight):
+    for ctl in rob.controllers:
+        ctl.set_weights(weight)
+        
+def init_random_gen(rob,lambda_):
+    ctl = rob.controllers[0]
+    res=[]
+    for _ in range(lambda_):
+        res.append(ctl.get_random_weights())
+    return res
+        
 def reset_agent_observers(rob):
     for obs in rob.agent_observers:
         obs.reset()
