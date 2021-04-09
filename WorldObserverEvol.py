@@ -8,6 +8,7 @@ Created on Tue Mar  9 00:57:55 2021
 from pyroborobo import Pyroborobo, Controller, WorldObserver
 from controllerEvol import EvolController
 import numpy as np
+from objects import SwitchObject, UWallObject, Feuille
 
 
 #Variables globales

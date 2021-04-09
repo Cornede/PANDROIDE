@@ -8,6 +8,8 @@ class Feuille(CircleObject):
         super().__init__(id)
         self.set_color(255, 165, 0)
         self.transported = False
+        self.regrow_time = 100
+        self.cur_regrow = 0
         self.data = data
         self.default_x = copy.copy(data["x"])
         self.default_y = copy.copy(data["y"])
@@ -16,7 +18,9 @@ class Feuille(CircleObject):
     def reset(self):
         self.show()
         self.register()
-        self.transported= False
+        self.triggered = False
+        self.cur_regrow = 0
+
 
 
     def step(self):
@@ -41,6 +45,7 @@ class Feuille(CircleObject):
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
                     self.transported = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else:
@@ -54,6 +59,7 @@ class Feuille(CircleObject):
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
                     self.transported = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else : 
