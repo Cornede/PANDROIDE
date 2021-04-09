@@ -18,9 +18,15 @@ class EvolController(Controller):
         self.nb_hiddens = 14
         self.nb_zones=6
         
+<<<<<<< HEAD
+        self.wantDrop=False
+        self.setObjCollected(False);
+        self.setCanInstantDrop(False);
+=======
         self.setCanCollect(False)
         self.setObjCollected(False)
         self.setCanInstantDrop(False)
+>>>>>>> b0a204e65ccf2cd278b796c14f4c863a14f9c9c5
         self.setIsObserved(False)
         
         self.weights = [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
@@ -43,7 +49,11 @@ class EvolController(Controller):
         out = np.clip(evaluate_network(input, self.weights), -1, 1)
         self.set_translation(out[0])
         self.set_rotation(out[1])
+<<<<<<< HEAD
+        self.setWantDrope(out[2])#depot ou non d objet
+=======
         self.setCanCollect(out[2])#depot ou non d objet
+>>>>>>> b0a204e65ccf2cd278b796c14f4c863a14f9c9c5
         
         # Quand le robot est sur la pente 
         maxRampSpeed = 0.3
@@ -55,6 +65,9 @@ class EvolController(Controller):
             self.set_translation(maxRampSpeed)
         if (x > 250 and x < 670 and y > 450 and y < 700 and orientation > 0.0):
             self.set_translation(maxRampSpeed)
+            
+        
+        
 
 
 
@@ -86,6 +99,10 @@ class EvolController(Controller):
                     break
         
 	# Fonctions de ramassage et dépôt d'objets
+    
+    def getWantDrope(self):
+        return self.wantDrop
+    
     def getCanCollect(self):
         return self.canCollect
     
@@ -103,9 +120,15 @@ class EvolController(Controller):
 
     def getIsObserved(self):
         return self.objObserved
+    
+    
+    
 
 
 	# Fonction set
+    
+    def setWantDrope(self,c):
+        self.wantDrop = c
     
     def setCanCollect(self,c):
         self.canCollect = c

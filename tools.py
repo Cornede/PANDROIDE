@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Mar  7 13:02:00 2021
-
 @author: Damien
 """
 #set of methods used for learning with neuron networks
@@ -77,3 +76,7 @@ def init_random_gen(rob,lambda_):
 def reset_agent_observers(rob):
     for obs in rob.agent_observers:
         obs.reset()
+
+def get_reference_function(rob: Pyroborobo):
+    reference_function  = rob.world_observer.reference_function 
+    return reference_function 

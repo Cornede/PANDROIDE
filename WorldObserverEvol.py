@@ -19,6 +19,7 @@ rampeYMin=450
 rampeYMax=700
 nestX=450
 nestY=850
+Rayon_nid = 50
 
 
 class WorldObserverEvol(WorldObserver):
@@ -28,6 +29,7 @@ class WorldObserverEvol(WorldObserver):
         self.rob = Pyroborobo.get()
         self.global_fit = 0
         self.pointCount = 0
+        self.reference_function = 0
         
     def init_post(self):
         
@@ -45,9 +47,11 @@ class WorldObserverEvol(WorldObserver):
             y = p[1]
             if(c.getCanInstantDrop()==True):
                 ori = c.absolute_orientation
-                if(x==nestX and y == nestY): # on est dans le nid
+                # on est dans la zone du nid
+                if(nestX-Rayon_nid <=x<=nestX+Rayon_nid and nestY-Rayon_nid <= y <= nestY+Rayon_nid and c.getWantDrope()):
                         c.setObjCollected(False)
                         print("Dropped in nest!")
+                        self.reference_function += 1
                         self.addPoint(50000)
                 if(y>depotMin and y < rampeYMax):
                         self.addPoint(20000)
@@ -60,8 +64,13 @@ class WorldObserverEvol(WorldObserver):
     def step_post(self):
        # on récupère la liste des robots
        for c in self.rob.controllers:
+<<<<<<< HEAD
+            if c.objCollected :
+                self.global_fit+=100
+=======
             if c.getCanCollect():
                 self.global_fit+=10
             if c.getObjCollected():
                 self.global_fit+=1000
+>>>>>>> b0a204e65ccf2cd278b796c14f4c863a14f9c9c5
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
