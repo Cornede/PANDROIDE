@@ -29,7 +29,7 @@ def get_weights(rob: Pyroborobo):
     return weights
 
 
-def get_fitnesses(rob: Pyroborobo):
+def get_fitnesses_ded(rob: Pyroborobo):
     fitnesses = []
     for observer in rob.agent_observers:
         fitnesses.append(observer.fitness)
