@@ -4,15 +4,15 @@ from controllersTest import ControllerTest
 
 class Feuille(CircleObject):
 
-    def __init__(self, id, data):
+    def __init__(self, id, data={}):
         super().__init__(id)
         self.set_color(255, 165, 0)
         self.transported = False
         self.regrow_time = 100
         self.cur_regrow = 0
         self.data = data
-        self.default_x = copy.copy(data["x"])
-        self.default_y = copy.copy(data["y"])
+        #self.default_x = copy.copy(data["x"])
+        #self.default_y = copy.copy(data["y"])
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
 
     def reset(self):
