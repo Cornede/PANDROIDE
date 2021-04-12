@@ -31,9 +31,10 @@ class EvolController(Controller):
         self.zones=np.zeros(self.nb_zones)
 
     def get_random_weights(self):
-        return [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
-                np.random.normal(0, 1, (self.nb_hiddens, 3))]
-        
+        return np.random.normal(0, 1, (self.tot_weights))
+    def get_tot_weights(self):
+        return self.tot_weights 
+    
     def reset(self):
         pass
 

@@ -63,21 +63,14 @@ def apply_weights(rob, weights):
         ctl.set_weights(weight)
 
 def apply_weight_clonal(rob, weight):
-    # on applati les poids
-    res = np.array([],dtype='float64')
-    for e in weight:
-        res = np.concatenate((res,e),axis = None)
-    print(res)
     for ctl in rob.controllers:
-        ctl.set_weights(res)
+        ctl.set_weights(weight)
         
 def init_random_gen(rob,lambda_):
     ctl = rob.controllers[0]
-    res=[]
-    for _ in range(lambda_):
-        res.append(ctl.get_random_weights())
-    tmp=res[0]
-    print(len(tmp[0]))
+    res=np.zeros((lambda_,ctl.get_tot_weights()))
+    for i in range(lambda_):
+        res[i,:]=ctl.get_random_weights()
     return res
         
 def reset_agent_observers(rob):

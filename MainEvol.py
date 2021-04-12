@@ -36,7 +36,6 @@ def main():
     rob.start()
     # un genome : une solution candidate , poids du réseau
     all_genomes=init_random_gen(rob,lambda_)
-    print(len(all_genomes[0]))
     for igen in range(nbgen):
         """
         if igen in gen_to_track:
