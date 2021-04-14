@@ -21,22 +21,19 @@ def main():
     nbgen = 20
     nbiterpergen = 200
     lambda_=20
-    plt.show()
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
         "config/test.properties",
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
-        agent_observer_class=EvolObserver,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": False, "gDisplayMode": 1,"gInitialNumberOfRobots":lambda_}
     )
 
  
     rob.start()
     # un genome : une solution candidate , poids du réseau
     all_genomes=init_random_gen(rob,lambda_)
-    print(len(all_genomes[0]))
     for igen in range(nbgen):
         """
         if igen in gen_to_track:
@@ -47,7 +44,10 @@ def main():
         
         performance_gen_ref=[]
         performance_gen_ded=[]
+        i = 0
         for genome in all_genomes:
+            i = i+1
+            print("*" * 10,"genome:",i, "*" * 10)
             apply_weight_clonal(rob,genome)
             stop = rob.update(nbiterpergen)
             if stop:
@@ -58,14 +58,17 @@ def main():
             fitness_ded_genome=np.sum(fitnesses_ded_list)+get_global_fitnesses(rob)
             performance_gen_ded.append(fitness_ded_genome)
             performance_gen_ref= get_reference_function(rob)
+            #performance_gen_ref.append(get_reference_function(rob))
+            #reset_agent_controllers(rob)
         
         performance_list.append(np.mean(performance_gen_ref))
        
-        print("fit ="+str(performance_list[-1]))
+        #print("fit ="+str(performance_list[-1]))
    
    	     #ou utiliser fitprop ici ou tout algo de selection de type ES
         all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,20)
-        reset_agent_observers(rob)
+        reset_agent_controllers(rob)
+        #reset_agent_observers(rob)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
@@ -77,3 +80,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+

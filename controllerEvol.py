@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Mar  7 13:00:34 2021
-
 @author: Damien
 """
 
 from pyroborobo import  Controller
 import numpy as np
 from tools import evaluate_network
+import random
 
 
 class EvolController(Controller):
@@ -21,6 +21,10 @@ class EvolController(Controller):
         self.wantDrop=False
         self.setObjCollected(False)
         self.setCanInstantDrop(False)
+        
+        #x = random.randint(250, 650)
+        #y = random.randint(120, 650)
+        #self.set_position(x,y)
     
 
         self.setIsObserved(False)
@@ -29,13 +33,20 @@ class EvolController(Controller):
                         np.random.normal(0, 1, (self.nb_hiddens, 3))]
         self.tot_weights = np.sum([np.prod(layer.shape) for layer in self.weights])
         self.zones=np.zeros(self.nb_zones)
+        
+        self.fitness = 0
+        
+        
 
     def get_random_weights(self):
-        return [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
-                np.random.normal(0, 1, (self.nb_hiddens, 3))]
-        
+        return np.random.normal(0, 1, (self.tot_weights))
+    def get_tot_weights(self):
+        return self.tot_weights 
+    
     def reset(self):
-        pass
+       #pass
+       self.fitness = 0
+
 
     def step(self):
         self.lookForFood()
@@ -58,6 +69,20 @@ class EvolController(Controller):
             self.set_translation(maxRampSpeed)
         if (x > 250 and x < 670 and y > 450 and y < 700 and orientation > 0.0):
             self.set_translation(maxRampSpeed)
+            
+        
+        speed = self.translation
+        rotspeed = np.abs(self.rotation)
+        dists = np.asarray(self.get_all_distances())
+        fitdelta = 5 * speed + np.min(dists) + 4 * np.exp(-10 * rotspeed)
+        self.fitness += fitdelta
+        #l'agent a collecte un objet
+        if self.getObjCollected(): 
+            self.fitness+=10000
+        # si l'agent est au niveau de la pente et a un objet sa fitness augmente si il le lache
+        """
+        if (self.getWantDrope() and self.getCanDropSlope()) :
+            self.fitness+=2000"""
             
         
         
@@ -156,5 +181,3 @@ class EvolController(Controller):
             self.setCanDropSlope(False)
             self.setCanDropNest(False)
             self.setCanInstantDrop(False)
-
-    

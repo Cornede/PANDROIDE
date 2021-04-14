@@ -12,21 +12,15 @@ from WorldObserverEvol import *
 from tools import *
 import matplotlib
 import matplotlib.pyplot as plt
-import random
-import numpy as np
 
 
 from objects import SwitchObject, UWallObject, Feuille
 
 gen_to_track=[0,5,10,15,25]
-
 def main():
-    
-    mu = 5
-    lambdA = 20
-    nbgen = 30
+    nbgen = 20
     nbiterpergen = 200
-    sigma = 0.1
+    lambda_=20
     plt.show()
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
@@ -34,70 +28,51 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         agent_observer_class=EvolObserver,
-        object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2}
+        object_class_dict={'_default': Feuille,'uwall': UWallObject, 'switch': SwitchObject},
+        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
     )
 
+ 
     rob.start()
-    
-    n = len(get_weights(rob))
-    
-    # on initialise les parents
-    parents = []
-    parentsFit = []
-    for k in np.arange(lambdA):
-        stop = rob.update(nbiterpergen)
-        if stop :
-            break
-        parents.append(get_weights(rob))
-        parentsFit.append(np.sum(get_fitnesses(rob)))
-    
-    bestFit = np.max(parentsFit)
-    
+    # un genome : une solution candidate , poids du réseau
+    all_genomes=init_random_gen(rob,lambda_)
     for igen in range(nbgen):
         """
         if igen in gen_to_track:
-            rob.init_trajectory_monitor()  # log trajectory for all agents"""
+            rob.init_trajectory_monitor()  """# log trajectory for all agents
         print("*" * 10, igen, "*" * 10)
-        childs = np.zeros((lambdA,len(parents[0])))
-        childsFit = np.zeros(lambdA)
-        for z in np.arange(lambdA):
-            w = random.randint(0,mu-1)
-            parent = parents[w]
-            print("poids")
-            print(parent[0])
-            print(len(parent[0]))
-            childs[z] = parent[0]+sigma*np.random.normal(0,sigma,len(parent[0]))
-            apply_weights(rob,childs[z])
+        ## Pour tester une solution candidate(les poids) il faudrait faire
+        ## une moyenne sur plusieurs expériences et pas que sur une 
+        
+        performance_gen_ref=[]
+        performance_gen_ded=[]
+        for genome in all_genomes:
+            apply_weight_clonal(rob,genome)
             stop = rob.update(nbiterpergen)
-            if stop :
+            if stop:
                 break
-            childsFit[z] = np.sum(get_fitnesses(rob))
-        childsFitId = np.argsort(childsFit)
-        parents = childs[childsFitId[0:mu]]
-        parentsFit = []
-        for z in np.arange(mu):
-            apply_weights(rob,parents[z])        
-            stop = rob.update(nbiterpergen)
-            if stop :
-                break
-            parentsFit.append(np.sum(get_fitnesses(rob)))
-            global_fitnesses = get_global_fitnesses(rob)
-            
-        bestFit = np.max(parentsFit)
-        performance_list.append(bestFit)
+            #fitness dediee de chaque agent/robot
+            fitnesses_ded_list = get_fitnesses_ded(rob)
+            #fitness dediee totale pour ce genome
+            fitness_ded_genome=np.sum(fitnesses_ded_list)+get_global_fitnesses(rob)
+            performance_gen_ded.append(fitness_ded_genome)
+            performance_gen_ref= get_reference_function(rob)
+        
+        performance_list.append(np.mean(performance_gen_ref))
+       
+        print("fit ="+str(performance_list[-1]))
+   
+   	     #ou utiliser fitprop ici ou tout algo de selection de type ES
+        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,20)
+        reset_agent_observers(rob)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
-            
-            
+
     plt.plot(np.arange(len(performance_list)),performance_list)
     plt.xlabel("génération")
     plt.ylabel("performance")
     plt.show()
-         
-        
-        
     
 if __name__ == "__main__":
     main()

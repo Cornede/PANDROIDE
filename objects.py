@@ -4,37 +4,34 @@ from controllersTest import ControllerTest
 
 class Feuille(CircleObject):
 
-    def __init__(self, id, data):
-        super().__init__(id)
-        self.set_color(255, 165, 0)
-        self.transported = False
+    def __init__(self, id=-1, data={}):
+        super().__init__(id,data)
+        self.set_color(0, 255, 0)
+        self.triggered = False
         self.regrow_time = 100
         self.cur_regrow = 0
         self.data = data
-        self.default_x = copy.copy(data["x"])
-        self.default_y = copy.copy(data["y"])
+        #self.default_x = copy.copy(data["x"])
+        #self.default_y = copy.copy(data["y"])
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
 
     def reset(self):
         self.show()
         self.register()
-        self.triggered = False
-        self.cur_regrow = 0
+        #self.triggered = False
+        #self.cur_regrow = 0
 
 
 
     def step(self):
-         x, y = self.position
-         if self.transported == True: # si l'objet est transporté
-              if x < 20:
-                 new_x= 5 # mettre une coordonnées aléatoire en bas de la pente
-                 new_y= 6 # mettre une coordonnées aléatoire en bas de la pente
-                 self.unregister()
-                 success = self.relocate(new_x, new_y)
-                 if not success:
-                     self.relocate(self.default_x, self.default_y)
-                     self.transported= False
-                 self.register()
+        pass
+        """
+       if self.triggered:
+            self.cur_regrow -= 1
+            if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
+                self.show()
+                self.register()
+                self.triggered = False"""
                  
                  
     def is_walked(self, robid):
@@ -44,8 +41,8 @@ class Feuille(CircleObject):
                     print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    self.transported = True
-                    self.cur_regrow = self.regrow_time
+                    #self.triggered = True
+                    #self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else:
@@ -58,8 +55,8 @@ class Feuille(CircleObject):
                     print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    self.transported = True
-                    self.cur_regrow = self.regrow_time
+                    #self.triggered = True
+                    #self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else : 
