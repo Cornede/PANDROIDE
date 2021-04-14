@@ -117,3 +117,27 @@ class WorldObserverEvol(WorldObserver):
             if c.getObjCollected():
                 self.global_fit+=1000
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
+        
+    def reset(self):
+       for i in range (self.nb_objects):
+            obj = Feuille(self.next_id_obj)
+            obj.unregister()
+
+            x = randint(270, 650)
+            n = random()
+            if  n < 0.5:
+                y = randint(120, 450) 
+            else:
+                y = randint(700,870) 
+
+            obj.set_coordinates(x, y)
+            obj = self.rob.add_object(obj)
+            obj.show()
+            obj.register()
+            self.next_id_obj += 1
+
+       for robot in self.rob.controllers:
+            x = randint(270, 650)
+            y = randint(700, 870)
+            robot.set_position(x, y)
+            

@@ -82,6 +82,15 @@ def reset_agent_controllers(rob):
      for ctl in rob.controllers:
         ctl.reset()
 
+def reset_world_observer(rob):
+     rob.world_observer.reset()
+     
+def reset_object(rob):
+    for obj in rob.objects:
+        obj.hide()
+        obj.unregister()
+    
+
 def get_reference_function(rob: Pyroborobo):
     reference_function  = rob.world_observer.reference_function 
     return reference_function 
