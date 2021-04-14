@@ -8,9 +8,11 @@ from pyroborobo import Pyroborobo, Controller, WorldObserver
 from controllerEvol import EvolController
 import numpy as np
 from objects import SwitchObject, UWallObject, Feuille
-
+<<<<<<< HEAD
 from random import *
-
+=======
+import random
+>>>>>>> 8422fd1d6f2daaaf9839f9e64c287077afe8065c
 
 #Variables globales
 #Zone de jeu
@@ -40,28 +42,33 @@ class WorldObserverEvol(WorldObserver):
         for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
             obj.unregister()
-
+<<<<<<< HEAD
             x = randint(270, 650)
             n = random()
             if  n < 0.5:
                 y = randint(120, 450) 
             else:
                 y = randint(700,870) 
-
+=======
+            x = random.randint(250, 650)
+            y = random.randint(120, 650)
+>>>>>>> 8422fd1d6f2daaaf9839f9e64c287077afe8065c
             obj.set_coordinates(x, y)
             obj = self.rob.add_object(obj)
             obj.show()
             obj.register()
             self.next_id_obj += 1
-
+<<<<<<< HEAD
+            
         for robot in self.rob.controllers:
             x = randint(270, 650)
             y = randint(700, 870)
             robot.set_position(x, y)
             
             
+=======
 
-
+>>>>>>> 8422fd1d6f2daaaf9839f9e64c287077afe8065c
         arena_size = np.asarray(self.rob.arena_size)
         landmark = self.rob.add_landmark()
         landmark.radius = 20
@@ -74,15 +81,32 @@ class WorldObserverEvol(WorldObserver):
             p = c.absolute_position
             x = p[0]
             y = p[1]
-
+<<<<<<< HEAD
             if(c.getCanInstantDrop()==True and c.getWantDrope()):
+=======
+            if(c.getCanInstantDrop()==True):
+
+                new_obj = Feuille(self.next_id_obj)
+                new_obj.unregister()
+                x = random.randint(250, 650)
+                y = random.randint(120, 450)
+                new_obj.set_coordinates(x, y)
+                new_obj = self.rob.add_object(new_obj)
+                new_obj.show()
+                new_obj.register()
+                self.next_id_obj += 1
+>>>>>>> 8422fd1d6f2daaaf9839f9e64c287077afe8065c
+
 
                 ori = c.absolute_orientation
                 # on est dans la zone du nid
                 if(nestX-Rayon_nid <=x<=nestX+Rayon_nid and nestY-Rayon_nid <= y <= nestY+Rayon_nid and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
+<<<<<<< HEAD
                         c.fitness += 50000
+=======
+>>>>>>> 8422fd1d6f2daaaf9839f9e64c287077afe8065c
                         print("Dropped in nest!")
                         self.reference_function += 1
                         self.addPoint(50000)

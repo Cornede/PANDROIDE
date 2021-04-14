@@ -8,9 +8,7 @@ from pyroborobo import Pyroborobo, Controller, WorldObserver
 from controllerEvol import EvolController
 import numpy as np
 from objects import SwitchObject, UWallObject, Feuille
-
 from random import *
-
 
 #Variables globales
 #Zone de jeu
@@ -40,28 +38,24 @@ class WorldObserverEvol(WorldObserver):
         for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
             obj.unregister()
-
             x = randint(270, 650)
             n = random()
             if  n < 0.5:
                 y = randint(120, 450) 
             else:
                 y = randint(700,870) 
-
             obj.set_coordinates(x, y)
             obj = self.rob.add_object(obj)
             obj.show()
             obj.register()
             self.next_id_obj += 1
-
+            
         for robot in self.rob.controllers:
             x = randint(270, 650)
             y = randint(700, 870)
             robot.set_position(x, y)
             
             
-
-
         arena_size = np.asarray(self.rob.arena_size)
         landmark = self.rob.add_landmark()
         landmark.radius = 20
@@ -74,8 +68,8 @@ class WorldObserverEvol(WorldObserver):
             p = c.absolute_position
             x = p[0]
             y = p[1]
-
             if(c.getCanInstantDrop()==True and c.getWantDrope()):
+
 
                 ori = c.absolute_orientation
                 # on est dans la zone du nid
