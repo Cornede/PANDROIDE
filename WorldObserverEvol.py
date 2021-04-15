@@ -43,10 +43,10 @@ class WorldObserverEvol(WorldObserver):
 
             x = randint(270, 650)
             n = random()
-            if  n < 0.5:
-                y = randint(120, 450) 
-            else:
-                y = randint(700,870) 
+           # if  n < 0.5:
+            y = randint(120, 450) 
+            #else:
+                #y = randint(700,870) 
 
             obj.set_coordinates(x, y)
             obj = self.rob.add_object(obj)
@@ -90,11 +90,11 @@ class WorldObserverEvol(WorldObserver):
                         new_obj = Feuille(self.next_id_obj)
                         new_obj.unregister()
                         x = randint(270, 650)
-                        n = random()
-                        if  n < 0.5:
-                             y = randint(120, 450) 
-                        else:
-                             y = randint(700,870) 
+                        #n = random()
+                        #if  n < 0.5:
+                        y = randint(120, 450) 
+                        #else:
+                             #y = randint(700,870) 
                         new_obj.set_coordinates(x, y)
                         new_obj = self.rob.add_object(new_obj)
                         new_obj.show()
@@ -119,16 +119,19 @@ class WorldObserverEvol(WorldObserver):
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
         
     def reset(self):
+        
+       self.global_fit = 0
+       self.next_id_obj = 8
        for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
             obj.unregister()
 
             x = randint(270, 650)
-            n = random()
-            if  n < 0.5:
-                y = randint(120, 450) 
-            else:
-                y = randint(700,870) 
+            #n = random()
+            #if  n < 0.5:
+            y = randint(120, 450) 
+            #else:
+                #y = randint(700,870) 
 
             obj.set_coordinates(x, y)
             obj = self.rob.add_object(obj)

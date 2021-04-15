@@ -27,7 +27,7 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": False, "gDisplayMode": 0,"gInitialNumberOfRobots":lambda_}
     )
 
  
@@ -59,9 +59,7 @@ def main():
             performance_gen_ded.append(fitness_ded_genome)
             #performance_gen_ref= get_reference_function(rob)
             performance_gen_ref.append(get_reference_function(rob))
-            reset_agent_controllers(rob)
-            reset_object(rob)
-            reset_world_observer(rob)
+        
         
         performance_list.append(np.mean(performance_gen_ref))
        
@@ -69,8 +67,9 @@ def main():
    
    	     #ou utiliser fitprop ici ou tout algo de selection de type ES
         all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,20)
-        #reset_agent_controllers(rob)
-        #reset_agent_observers(rob)
+        reset_agent_controllers(rob)
+        reset_object(rob)
+        reset_world_observer(rob)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
