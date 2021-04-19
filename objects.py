@@ -62,6 +62,19 @@ class Feuille(CircleObject):
                     self.unregister()
                 else : 
                     print("non collecté")
+
+
+
+class BlockObject(SquareObject):
+    def __init__(self, id=-1, data={}):
+        super().__init__(id, data)
+
+    def step(self):
+        return
+
+    def is_walked(self, id_):
+        return
+
             
 class SwitchObject(CircleObject):
     def __init__(self, id, data):

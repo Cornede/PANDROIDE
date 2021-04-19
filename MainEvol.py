@@ -18,7 +18,7 @@ from objects import SwitchObject, UWallObject, Feuille
 
 gen_to_track=[0,5,10,15,25]
 def main():
-    nbgen = 20
+    nbgen = 40
     nbiterpergen = 200
     lambda_=20
     performance_list=[]
@@ -34,6 +34,7 @@ def main():
     rob.start()
     # un genome : une solution candidate , poids du réseau
     all_genomes=init_random_gen(rob,lambda_)
+    debug = []
     for igen in range(nbgen):
         """
         if igen in gen_to_track:
@@ -41,12 +42,15 @@ def main():
         print("*" * 10, igen, "*" * 10)
         ## Pour tester une solution candidate(les poids) il faudrait faire
         ## une moyenne sur plusieurs expériences et pas que sur une 
-        
+        s = ("génération:",igen)
+        debug.append(s)
         performance_gen_ref=[]
         performance_gen_ded=[]
         i = 0
         for genome in all_genomes:
             i = i+1
+            s2 = ("genome:",i)
+            debug.append(s2)
             print("*" * 10,"genome:",i, "*" * 10)
             apply_weight_clonal(rob,genome)
             stop = rob.update(nbiterpergen)
@@ -59,17 +63,16 @@ def main():
             performance_gen_ded.append(fitness_ded_genome)
             #performance_gen_ref= get_reference_function(rob)
             performance_gen_ref.append(get_reference_function(rob))
+            print("debug:",debug)
+            reset_object(rob)
+            reset_world_observer(rob)
+            reset_agent_controllers(rob)
         
         
         performance_list.append(np.mean(performance_gen_ref))
-       
-        #print("fit ="+str(performance_list[-1]))
    
    	     #ou utiliser fitprop ici ou tout algo de selection de type ES
-        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,20)
-        reset_agent_controllers(rob)
-        reset_object(rob)
-        reset_world_observer(rob)
+        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,lambda_)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""

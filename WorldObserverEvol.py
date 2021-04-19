@@ -7,7 +7,7 @@ Created on Tue Mar  9 00:57:55 2021
 from pyroborobo import Pyroborobo, Controller, WorldObserver
 from controllerEvol import EvolController
 import numpy as np
-from objects import SwitchObject, UWallObject, Feuille
+from objects import SwitchObject, UWallObject, Feuille, BlockObject
 
 from random import *
 
@@ -19,9 +19,53 @@ depotMin = 400
 depotMax = 450
 rampeYMin=450
 rampeYMax=700
-nestX=450
+nestX=370
 nestY=850
 Rayon_nid = 50
+
+
+arena = [
+                [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+                [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ]
+
+offset_x = 36
+offset_y = 36
+edge_width = 28
+edge_height = 28
+
+
+
 
 
 class WorldObserverEvol(WorldObserver):
@@ -37,11 +81,29 @@ class WorldObserverEvol(WorldObserver):
         
     def init_post(self):
         
+        super().init_post()
+        
+        for i in range(len(arena)):
+            for j in range(len(arena[0])):
+                if arena[i][j] == 1:
+                    block = BlockObject()
+                    block = self.rob.add_object(block)
+                    block.soft_width = 0
+                    block.soft_height = 0
+                    block.solid_width = edge_width
+                    block.solid_height = edge_height
+                    block.set_color(164, 128, 0)
+                    block.set_coordinates(offset_x + j * edge_width, offset_y + i * edge_height)
+                    retValue = block.can_register()
+                    # print("Register block (",block.get_id(),") :", retValue)
+                    block.register()
+                    block.show()
+        
         for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
             obj.unregister()
 
-            x = randint(270, 650)
+            x = randint(100, 650)
             n = random()
            # if  n < 0.5:
             y = randint(120, 450) 
@@ -55,7 +117,7 @@ class WorldObserverEvol(WorldObserver):
             self.next_id_obj += 1
 
         for robot in self.rob.controllers:
-            x = randint(270, 650)
+            x = randint(100, 650)
             y = randint(700, 870)
             robot.set_position(x, y)
             
@@ -65,7 +127,7 @@ class WorldObserverEvol(WorldObserver):
         arena_size = np.asarray(self.rob.arena_size)
         landmark = self.rob.add_landmark()
         landmark.radius = 20
-        landmark.set_coordinates(450,850)
+        landmark.set_coordinates(370,850)
         landmark.show()
         
     def step_pre(self):
@@ -89,7 +151,7 @@ class WorldObserverEvol(WorldObserver):
                         
                         new_obj = Feuille(self.next_id_obj)
                         new_obj.unregister()
-                        x = randint(270, 650)
+                        x = randint(100, 650)
                         #n = random()
                         #if  n < 0.5:
                         y = randint(120, 450) 
@@ -102,6 +164,7 @@ class WorldObserverEvol(WorldObserver):
                         self.next_id_obj += 1
                         
                 if(y>depotMin and y < rampeYMax):
+                        c.setCanDropSlope(True)
                         self.addPoint(20000)
                         
     def addPoint(self,p):
@@ -111,6 +174,8 @@ class WorldObserverEvol(WorldObserver):
         
     def step_post(self):
        # on récupère la liste des robots
+       
+       super().step_post()
        for c in self.rob.controllers:
             if c.getCanCollect():
                 self.global_fit+=10
@@ -122,11 +187,28 @@ class WorldObserverEvol(WorldObserver):
         
        self.global_fit = 0
        self.next_id_obj = 8
+       
+       for i in range(len(arena)):
+            for j in range(len(arena[0])):
+                if arena[i][j] == 1:
+                    block = BlockObject()
+                    block = self.rob.add_object(block)
+                    block.soft_width = 0
+                    block.soft_height = 0
+                    block.solid_width = edge_width
+                    block.solid_height = edge_height
+                    block.set_color(164, 128, 0)
+                    block.set_coordinates(offset_x + j * edge_width, offset_y + i * edge_height)
+                    retValue = block.can_register()
+                    # print("Register block (",block.get_id(),") :", retValue)
+                    block.register()
+                    block.show()
+                    
        for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
             obj.unregister()
 
-            x = randint(270, 650)
+            x = randint(100, 650)
             #n = random()
             #if  n < 0.5:
             y = randint(120, 450) 
@@ -140,7 +222,7 @@ class WorldObserverEvol(WorldObserver):
             self.next_id_obj += 1
 
        for robot in self.rob.controllers:
-            x = randint(270, 650)
+            x = randint(100, 650)
             y = randint(700, 870)
             robot.set_position(x, y)
             

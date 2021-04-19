@@ -17,7 +17,10 @@ def evaluate_network(input_, network):
     for elem in network[:-1]:
         out = np.tanh(out @ elem)
     out = out @ network[-1]  # linear output for last layer
-    out[-1]=round(np.tanh(out[-1]))
+    if np.tanh(out[-1]) < 0:
+        out[-1] = 0
+    else:
+        out[-1] = 1
     return out
 
 
@@ -57,6 +60,7 @@ def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.01):
     bestParents = np.asarray(weights)[index_mu_best]
     # mutate
     new_weights_mutate = np.array([np.random.normal(bestParents[np.random.randint(mu)],sigma) for i in range(lambda_)])
+    print("taille:",len(new_weights_mutate))
     return new_weights_mutate
 
 def apply_weights(rob, weights):

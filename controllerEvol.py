@@ -79,10 +79,11 @@ class EvolController(Controller):
         #l'agent a collecte un objet
         if self.getObjCollected(): 
             self.fitness+=10000
+            
         # si l'agent est au niveau de la pente et a un objet sa fitness augmente si il le lache
         """
         if (self.getWantDrope() and self.getCanDropSlope()) :
-            self.fitness+=2000"""
+            self.fitness+=5000"""
             
         
         
@@ -114,7 +115,7 @@ class EvolController(Controller):
         camera_dist = self.get_all_distances()
         for i in range(len(camera_dist)):
             if camera_dist[i] < 1:  # if we see something
-                if self.get_object_at(1) != -1:  # And it is food
+                if self.get_object_at(i) != -1:  # And it is food
                     self.setIsObserved(True)
                     break
         
