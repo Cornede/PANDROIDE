@@ -1,6 +1,7 @@
 from pyroborobo import Pyroborobo, Controller, CircleObject, SquareObject
 import copy
 from controllersTest import ControllerTest
+from random import *
 
 class Feuille(CircleObject):
 
@@ -10,7 +11,7 @@ class Feuille(CircleObject):
         self.set_color(0, 255, 0)
         self.type = 4
         self.triggered = False
-        self.regrow_time = 100
+        self.regrow_time = 50
         self.cur_regrow = 0
         self.data = data
         #self.default_x = copy.copy(data["x"])
@@ -24,13 +25,16 @@ class Feuille(CircleObject):
         self.cur_regrow = 0
 
 
+
     def step(self):
-       #pass
        if self.triggered:
             self.cur_regrow -= 1
             if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
-                self.show()
+                x = randint(100, 650)
+                y = randint(120, 450) 
+                self.set_coordinates(x, y)
                 self.register()
+                self.show()
                 self.triggered = False
                  
                  
@@ -55,8 +59,8 @@ class Feuille(CircleObject):
                     print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    #self.triggered = True
-                    #self.cur_regrow = self.regrow_time
+                    self.triggered = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else : 

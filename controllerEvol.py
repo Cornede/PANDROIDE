@@ -67,7 +67,7 @@ class EvolController(Controller):
 
         
         # Quand le robot est sur la pente 
-        maxRampSpeed = 0.5
+        maxRampSpeed = 0.3
         p = self.absolute_position
         orientation = self.absolute_orientation
         x = p[0]
@@ -116,7 +116,7 @@ class EvolController(Controller):
         camera_dist = self.get_all_distances()
         for i in range(len(camera_dist)):
             if camera_dist[i] < 1:  # if we see something
-                if self.get_object_at(i) != -1:  # And it is food
+                if self.get_object_at(i) != -1:  
                     if self.get_object_instance_at(i).type != -1:
                         self.setIsObserved(True)
                         break
