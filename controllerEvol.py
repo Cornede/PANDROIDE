@@ -19,6 +19,7 @@ class EvolController(Controller):
         self.nb_zones=6
         
         self.wantDrop=False
+        self.wantTake = False
         self.setObjCollected(False)
         self.setCanInstantDrop(False)
         
@@ -30,7 +31,7 @@ class EvolController(Controller):
         self.setIsObserved(False)
         
         self.weights = [np.random.normal(0, 1, (self.nb_sensors+ 4, self.nb_hiddens)),
-                        np.random.normal(0, 1, (self.nb_hiddens, 3))]
+                        np.random.normal(0, 1, (self.nb_hiddens, 4))]
         self.tot_weights = np.sum([np.prod(layer.shape) for layer in self.weights])
         self.zones=np.zeros(self.nb_zones)
         
@@ -46,6 +47,11 @@ class EvolController(Controller):
     def reset(self):
        #pass
        self.fitness = 0
+       self.wantDrop=False
+       self.setObjCollected(False)
+       self.setCanInstantDrop(False)
+       self.setIsObserved(False)
+       self.wantTake = False
 
 
     def step(self):
@@ -57,10 +63,11 @@ class EvolController(Controller):
         self.set_translation(out[0])
         self.set_rotation(out[1])
         self.setWantDrope(out[2])#depot ou non d objet
+        self.setWantTake(out[3])
 
         
         # Quand le robot est sur la pente 
-        maxRampSpeed = 0.3
+        maxRampSpeed = 0.5
         p = self.absolute_position
         orientation = self.absolute_orientation
         x = p[0]
@@ -74,8 +81,6 @@ class EvolController(Controller):
         speed = self.translation
         rotspeed = np.abs(self.rotation)
         dists = np.asarray(self.get_all_distances())
-        fitdelta = 5 * speed + np.min(dists) + 4 * np.exp(-10 * rotspeed)
-        self.fitness += fitdelta
         #l'agent a collecte un objet
         if self.getObjCollected(): 
             self.fitness+=10000
@@ -124,6 +129,10 @@ class EvolController(Controller):
     def getWantDrope(self):
         return self.wantDrop
     
+    
+    def getWantTake(self):
+        return self.wantTake
+    
     def getCanCollect(self):
         return self.canCollect
     
@@ -150,6 +159,9 @@ class EvolController(Controller):
     
     def setWantDrope(self,c):
         self.wantDrop = c
+        
+    def setWantTake(self,c):
+        self.wantTake = c
     
     def setCanCollect(self,c):
         self.canCollect = c

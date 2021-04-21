@@ -38,7 +38,7 @@ class Feuille(CircleObject):
     def is_walked(self, robid):
         for c in self.rob.controllers:
             if(c.get_id() == robid):
-                if(c.getCanCollect() == True):
+                if(c.getCanCollect() == True and c.getWantTake()):
                     print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
@@ -52,7 +52,7 @@ class Feuille(CircleObject):
     def isTouched(self,robid) : 
         for c in self.rob.controllers:
             if(c.get_id() == robid):
-                if(c.getCanCollect() == True):
+                if(c.getCanCollect() == True and c.getWantTake()):
                     print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)

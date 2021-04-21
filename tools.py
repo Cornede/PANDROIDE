@@ -16,11 +16,8 @@ def evaluate_network(input_, network):
     out = np.concatenate([[1], input_])
     for elem in network[:-1]:
         out = np.tanh(out @ elem)
-    out = out @ network[-1]  # linear output for last layer
-    if np.tanh(out[-1]) < 0:
-        out[-1] = 0
-    else:
-        out[-1] = 1
+    out = out @ network[-1]  # linear output for last layer    
+    out[-2:] = np.where(np.tanh(out[-2:])>0,1,0)
     return out
 
 

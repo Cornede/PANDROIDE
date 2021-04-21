@@ -78,6 +78,7 @@ class WorldObserverEvol(WorldObserver):
         self.reference_function = 0
         self.next_id_obj = 8
         self.nb_objects = 20
+        self.feuille = []
         
     def init_post(self):
         
@@ -115,6 +116,7 @@ class WorldObserverEvol(WorldObserver):
             obj.show()
             obj.register()
             self.next_id_obj += 1
+            self.feuille.append(obj)
 
         for robot in self.rob.controllers:
             x = randint(100, 650)
@@ -186,40 +188,18 @@ class WorldObserverEvol(WorldObserver):
     def reset(self):
         
        self.global_fit = 0
-       self.next_id_obj = 8
+       self.pointCount = 0
+       self.reference_function = 0
        
-       for i in range(len(arena)):
-            for j in range(len(arena[0])):
-                if arena[i][j] == 1:
-                    block = BlockObject()
-                    block = self.rob.add_object(block)
-                    block.soft_width = 0
-                    block.soft_height = 0
-                    block.solid_width = edge_width
-                    block.solid_height = edge_height
-                    block.set_color(164, 128, 0)
-                    block.set_coordinates(offset_x + j * edge_width, offset_y + i * edge_height)
-                    retValue = block.can_register()
-                    # print("Register block (",block.get_id(),") :", retValue)
-                    block.register()
-                    block.show()
                     
-       for i in range (self.nb_objects):
-            obj = Feuille(self.next_id_obj)
-            obj.unregister()
-
+       for obj in self.feuille:
             x = randint(100, 650)
-            #n = random()
-            #if  n < 0.5:
             y = randint(120, 450) 
-            #else:
-                #y = randint(700,870) 
-
+            obj.hide()
+            obj.unregister()
             obj.set_coordinates(x, y)
-            obj = self.rob.add_object(obj)
-            obj.show()
             obj.register()
-            self.next_id_obj += 1
+            obj.show()
 
        for robot in self.rob.controllers:
             x = randint(100, 650)

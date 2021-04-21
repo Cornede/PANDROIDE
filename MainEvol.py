@@ -12,6 +12,7 @@ from WorldObserverEvol import *
 from tools import *
 import matplotlib
 import matplotlib.pyplot as plt
+import time
 
 
 from objects import SwitchObject, UWallObject, Feuille
@@ -19,7 +20,7 @@ from objects import SwitchObject, UWallObject, Feuille
 gen_to_track=[0,5,10,15,25]
 def main():
     nbgen = 40
-    nbiterpergen = 200
+    nbiterpergen = 1000
     lambda_=20
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
@@ -27,7 +28,7 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": False, "gDisplayMode": 0,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
     )
 
  
@@ -53,9 +54,12 @@ def main():
             debug.append(s2)
             print("*" * 10,"genome:",i, "*" * 10)
             apply_weight_clonal(rob,genome)
+            tps1 = time.time()
             stop = rob.update(nbiterpergen)
             if stop:
                 break
+            tps2 = time.time()
+            print("temps test genome :",tps2 - tps1)
             #fitness dediee de chaque agent/robot
             fitnesses_ded_list = get_fitnesses_ded(rob)
             #fitness dediee totale pour ce genome
@@ -64,14 +68,17 @@ def main():
             #performance_gen_ref= get_reference_function(rob)
             performance_gen_ref.append(get_reference_function(rob))
             print("debug:",debug)
-            reset_object(rob)
+            tps1 = time.time()
             reset_world_observer(rob)
+            tps2 = time.time()
+            print("temps reset_world_observer:",tps2 - tps1)
             reset_agent_controllers(rob)
+            
         
         
         performance_list.append(np.mean(performance_gen_ref))
    
-   	     #ou utiliser fitprop ici ou tout algo de selection de type ES
+   	       #ou utiliser fitprop ici ou tout algo de selection de type ES
         all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,lambda_)
         """
         if igen in gen_to_track:
