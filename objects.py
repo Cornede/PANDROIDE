@@ -8,6 +8,7 @@ class Feuille(CircleObject):
     def __init__(self, id=-1, data={}):
         super().__init__(id,data)
         self.set_color(0, 255, 0)
+        self.type = 4
         self.triggered = False
         self.regrow_time = 100
         self.cur_regrow = 0
@@ -19,20 +20,18 @@ class Feuille(CircleObject):
     def reset(self):
         self.show()
         self.register()
-        #self.triggered = False
-        #self.cur_regrow = 0
-
+        self.triggered = False
+        self.cur_regrow = 0
 
 
     def step(self):
-        pass
-        """
+       #pass
        if self.triggered:
             self.cur_regrow -= 1
             if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
                 self.show()
                 self.register()
-                self.triggered = False"""
+                self.triggered = False
                  
                  
     def is_walked(self, robid):
@@ -42,8 +41,8 @@ class Feuille(CircleObject):
                     print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    #self.triggered = True
-                    #self.cur_regrow = self.regrow_time
+                    self.triggered = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else:
@@ -68,6 +67,7 @@ class Feuille(CircleObject):
 class BlockObject(SquareObject):
     def __init__(self, id=-1, data={}):
         super().__init__(id, data)
+        self.type = -1
 
     def step(self):
         return

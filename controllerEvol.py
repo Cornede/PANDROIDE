@@ -90,10 +90,6 @@ class EvolController(Controller):
         if (self.getWantDrope() and self.getCanDropSlope()) :
             self.fitness+=5000"""
             
-        
-        
-
-
 
     def get_flat_weights(self):
         all_layers = []
@@ -121,8 +117,11 @@ class EvolController(Controller):
         for i in range(len(camera_dist)):
             if camera_dist[i] < 1:  # if we see something
                 if self.get_object_at(i) != -1:  # And it is food
-                    self.setIsObserved(True)
-                    break
+                    if self.get_object_instance_at(i).type != -1:
+                        self.setIsObserved(True)
+                        break
+
+
         
 	# Fonctions de ramassage et dépôt d'objets
     
@@ -151,10 +150,6 @@ class EvolController(Controller):
     def getIsObserved(self):
         return self.objObserved
     
-    
-    
-
-
 	# Fonction set
     
     def setWantDrope(self,c):
@@ -189,7 +184,7 @@ class EvolController(Controller):
             self.setCanDropNest(True)
             self.setCanInstantDrop(True)
         if (c == False):
-            print("Can recollect")
+            #print("Can recollect")
             self.setCanCollect(True)
             self.setCanDropSlope(False)
             self.setCanDropNest(False)
