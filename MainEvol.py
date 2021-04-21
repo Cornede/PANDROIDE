@@ -22,6 +22,7 @@ def main():
     nbgen = 40
     nbiterpergen = 1000
     lambda_=20
+    mu=5
     performance_list=[]
     rob: Pyroborobo = Pyroborobo.create(
         "config/test.properties",
@@ -79,7 +80,7 @@ def main():
         performance_list.append(np.mean(performance_gen_ref))
    
    	       #ou utiliser fitprop ici ou tout algo de selection de type ES
-        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,lambda_)
+        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,mu,lambda_)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
