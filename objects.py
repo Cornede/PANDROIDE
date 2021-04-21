@@ -1,6 +1,7 @@
 from pyroborobo import Pyroborobo, Controller, CircleObject, SquareObject
 import copy
 from controllersTest import ControllerTest
+from random import *
 
 class Feuille(CircleObject):
 
@@ -9,7 +10,7 @@ class Feuille(CircleObject):
         super().__init__(id,data)
         self.set_color(0, 255, 0)
         self.triggered = False
-        self.regrow_time = 100
+        self.regrow_time = 50
         self.cur_regrow = 0
         self.data = data
         #self.default_x = copy.copy(data["x"])
@@ -19,20 +20,22 @@ class Feuille(CircleObject):
     def reset(self):
         self.show()
         self.register()
-        #self.triggered = False
-        #self.cur_regrow = 0
+        self.triggered = False
+        self.cur_regrow = 0
 
 
 
     def step(self):
-        pass
-        """
+        
        if self.triggered:
             self.cur_regrow -= 1
             if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
-                self.show()
+                x = randint(100, 650)
+                y = randint(120, 450) 
+                self.set_coordinates(x, y)
                 self.register()
-                self.triggered = False"""
+                self.show()
+                self.triggered = False
                  
                  
     def is_walked(self, robid):
@@ -42,8 +45,8 @@ class Feuille(CircleObject):
                     print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    #self.triggered = True
-                    #self.cur_regrow = self.regrow_time
+                    self.triggered = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else:
@@ -56,8 +59,8 @@ class Feuille(CircleObject):
                     print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    #self.triggered = True
-                    #self.cur_regrow = self.regrow_time
+                    self.triggered = True
+                    self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
                 else : 

@@ -67,7 +67,7 @@ class EvolController(Controller):
 
         
         # Quand le robot est sur la pente 
-        maxRampSpeed = 0.5
+        maxRampSpeed = 0.3
         p = self.absolute_position
         orientation = self.absolute_orientation
         x = p[0]

@@ -28,7 +28,7 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": False, "gDisplayMode": 0,"gInitialNumberOfRobots":lambda_}
     )
 
  

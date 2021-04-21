@@ -151,6 +151,7 @@ class WorldObserverEvol(WorldObserver):
                         self.reference_function += 1
                         self.addPoint(50000)
                         
+                        """
                         new_obj = Feuille(self.next_id_obj)
                         new_obj.unregister()
                         x = randint(100, 650)
@@ -163,11 +164,11 @@ class WorldObserverEvol(WorldObserver):
                         new_obj = self.rob.add_object(new_obj)
                         new_obj.show()
                         new_obj.register()
-                        self.next_id_obj += 1
+                        self.next_id_obj += 1"""
                         
                 if(y>depotMin and y < rampeYMax):
                         c.setCanDropSlope(True)
-                        self.addPoint(20000)
+                        # self.addPoint(20000)
                         
     def addPoint(self,p):
         self.global_fit=self.global_fit+p
