@@ -180,8 +180,6 @@ class WorldObserverEvol(WorldObserver):
        
        super().step_post()
        for c in self.rob.controllers:
-            if c.getCanCollect():
-                self.global_fit+=10
             if c.getObjCollected():
                 self.global_fit+=1000
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
