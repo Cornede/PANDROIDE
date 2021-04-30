@@ -20,9 +20,11 @@ from objects import SwitchObject, UWallObject, Feuille
 gen_to_track=[0,5,10,15,25]
 def main():
     nbgen = 40
-    nbiterpergen = 1000
+    nbiterpergen = 3000
     lambda_=20
+    mu=5
     performance_list=[]
+    performance_list_ded=[]
     rob: Pyroborobo = Pyroborobo.create(
         "config/test.properties",
         controller_class=EvolController,
@@ -75,18 +77,29 @@ def main():
             reset_agent_controllers(rob)
             
         
-        
+        performance_list_ded.append(np.mean(performance_gen_ded))
         performance_list.append(np.mean(performance_gen_ref))
    
    	       #ou utiliser fitprop ici ou tout algo de selection de type ES
-        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,5,lambda_)
+        all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,mu,lambda_)
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
 
-    plt.plot(np.arange(len(performance_list)),performance_list)
-    plt.xlabel("génération")
-    plt.ylabel("performance")
+        plt.plot(np.arange(len(performance_list)),performance_list)
+        plt.xlabel("génération")
+        plt.ylabel("performance")
+        plt.title("graphe_de_performance_ref")
+        plt.savefig("graphe_de_performance_ref")
+        plt.figure()
+        
+        
+        plt.plot(np.arange(len(performance_list_ded)),performance_list_ded)
+        plt.xlabel("génération")
+        plt.ylabel("performance")
+        plt.title("graphe_de_performance_ded")
+        plt.savefig("graphe_de_performance_ded")
+        plt.figure()
     plt.show()
     
 if __name__ == "__main__":

@@ -1,0 +1,22 @@
+cX	xX
+# Veuillez saisir le message de validation pour vos modifications. Les lignes
+# commençant par '#' seront ignorées, et un message vide abandonne la validation.
+#
+# Validateur : etudiant <etudiant@debian.com>
+#
+# Sur la branche master
+# Votre branche est à jour avec 'origin/master'.
+#
+# Modifications qui seront validées :
+#	modifié :         ../MainEvol.py
+#
+# Modifications qui ne seront pas validées :
+#	modifié :         ../__pycache__/WorldObserverEvol.cpython-38.pyc
+#	modifié :         ../__pycache__/agentObserverEvol.cpython-38.pyc
+#	modifié :         ../__pycache__/controllerEvol.cpython-38.pyc
+#	modifié :         ../__pycache__/controllersTest.cpython-38.pyc
+#	modifié :         ../__pycache__/objects.cpython-38.pyc
+#	modifié :         ../__pycache__/tools.cpython-38.pyc
+#	modifié :         test.properties
+#	modifié :         ../controllerEvol.py
+#
