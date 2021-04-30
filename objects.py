@@ -19,8 +19,8 @@ class Feuille(CircleObject):
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
 
     def reset(self):
-        self.show()
-        self.register()
+        #self.show()
+        #self.register()
         self.triggered = False
         self.cur_regrow = 0
 
@@ -33,6 +33,12 @@ class Feuille(CircleObject):
                 x = randint(100, 650)
                 y = randint(120, 450) 
                 self.set_coordinates(x, y)
+                b = self.can_register()
+                while(b==False):
+                      x = randint(100, 650)
+                      y = randint(120, 450) 
+                      self.set_coordinates(x, y)
+                      b = self.can_register()
                 self.register()
                 self.show()
                 self.triggered = False
