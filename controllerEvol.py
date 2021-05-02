@@ -10,6 +10,12 @@ import numpy as np
 from tools import evaluate_network
 import random
 
+nestX=370
+nestY=850
+Rayon_nid = 50
+
+
+
 
 class EvolController(Controller):
 
@@ -43,6 +49,10 @@ class EvolController(Controller):
         return np.random.normal(0, 1, (self.tot_weights))
     def get_tot_weights(self):
         return self.tot_weights 
+    
+    def dist_eucl(self,x,y):
+       p =self.position
+       return ( p[0]-x)**2  + (p[1]-y)**2
     
     def reset(self):
        #pass
@@ -83,7 +93,10 @@ class EvolController(Controller):
         dists = np.asarray(self.get_all_distances())
         #l'agent a collecte un objet
         if self.getObjCollected(): 
-            self.fitness+=10000
+            #self.fitness+=10000
+            s = self.dist_eucl(nestX,nestY)
+            self.fitness += s
+            
             
         # si l'agent est au niveau de la pente et a un objet sa fitness augmente si il le lache
         """
