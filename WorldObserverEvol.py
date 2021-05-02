@@ -149,25 +149,10 @@ class WorldObserverEvol(WorldObserver):
                 if(nestX-Rayon_nid <=x<=nestX+Rayon_nid and nestY-Rayon_nid <= y <= nestY+Rayon_nid and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
-                        c.fitness += 50000
+                        #c.fitness += 50000
                         print("Dropped in nest!")
                         self.reference_function += 1
-                        self.addPoint(50000)
-                        
-                        """
-                        new_obj = Feuille(self.next_id_obj)
-                        new_obj.unregister()
-                        x = randint(100, 650)
-                        #n = random()
-                        #if  n < 0.5:
-                        y = randint(120, 450) 
-                        #else:
-                             #y = randint(700,870) 
-                        new_obj.set_coordinates(x, y)
-                        new_obj = self.rob.add_object(new_obj)
-                        new_obj.show()
-                        new_obj.register()
-                        self.next_id_obj += 1"""
+                        #self.addPoint(50000)
                         
                 if(y>depotMin and y < rampeYMax):
                         c.setCanDropSlope(True)
@@ -182,9 +167,9 @@ class WorldObserverEvol(WorldObserver):
        # on récupère la liste des robots
        
        super().step_post()
-       for c in self.rob.controllers:
-            if c.getObjCollected():
-                self.global_fit+=1000
+       #for c in self.rob.controllers:
+            #if c.getObjCollected():
+                #self.global_fit+=1000
         # et augmenter global_fit ( de bcp ) en fonction du nb d'objet dans le nid
         
     def reset(self):
