@@ -105,13 +105,16 @@ class WorldObserverEvol(WorldObserver):
             obj.unregister()
 
             x = randint(100, 650)
-            n = random()
-           # if  n < 0.5:
             y = randint(120, 450) 
-            #else:
-                #y = randint(700,870) 
-
+    
             obj.set_coordinates(x, y)
+            b = obj.can_register()
+            while(b==False):
+                  x = randint(100, 650)
+                  y = randint(120, 450) 
+                  obj.set_coordinates(x, y)
+                  b = obj.can_register()
+                  
             obj = self.rob.add_object(obj)
             obj.show()
             obj.register()
@@ -197,8 +200,17 @@ class WorldObserverEvol(WorldObserver):
             obj.hide()
             obj.unregister()
             obj.set_coordinates(x, y)
+            
+            b = obj.can_register()
+            while(b==False):
+                  x = randint(100, 650)
+                  y = randint(120, 450) 
+                  obj.set_coordinates(x, y)
+                  b = obj.can_register()
+                  
             obj.register()
             obj.show()
+            obj.reset()
 
        for robot in self.rob.controllers:
             x = randint(100, 650)

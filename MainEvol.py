@@ -20,7 +20,7 @@ from objects import SwitchObject, UWallObject, Feuille
 gen_to_track=[0,5,10,15,25]
 def main():
     nbgen = 40
-    nbiterpergen = 3000
+    nbiterpergen = 200
     lambda_=20
     mu=5
     performance_list=[]
@@ -30,7 +30,7 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": False, "gDisplayMode": 0,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
     )
 
  
