@@ -51,7 +51,7 @@ class EvolController(Controller):
         return self.tot_weights 
     
     def dist_eucl(self,x,y):
-       p =self.position
+       p =self.absolute_position
        return ( p[0]-x)**2  + (p[1]-y)**2
     
     def reset(self):
@@ -92,13 +92,15 @@ class EvolController(Controller):
         rotspeed = np.abs(self.rotation)
         dists = np.asarray(self.get_all_distances())
         #l'agent a collecte un objet
-        if self.getObjCollected(): 
+        """if self.getObjCollected(): 
             #self.fitness+=10000
             s = self.dist_eucl(nestX,nestY)
-            self.fitness += s
-            
-            
+            self.fitness += 1/np.max(1e-5,s)
+        else :"""
+        s = self.dist_eucl(nestX,0) #zone de recup des feuilles
+        self.fitness += 1/max(1e-5,s)
         # si l'agent est au niveau de la pente et a un objet sa fitness augmente si il le lache
+        
         """
         if (self.getWantDrope() and self.getCanDropSlope()) :
             self.fitness+=5000"""
