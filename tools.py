@@ -11,6 +11,9 @@ from pyroborobo import Pyroborobo
 import scipy
 import scipy.stats
 from scipy.stats import rankdata
+import pickle
+import os.path
+
 
 def evaluate_network(input_, network):
     out = np.concatenate([[1], input_])
@@ -95,4 +98,47 @@ def reset_object(rob):
 
 def get_reference_function(rob: Pyroborobo):
     reference_function  = rob.world_observer.reference_function 
-    return reference_function 
+    return reference_function
+
+def saveList(l,fileName):
+    with open(fileName, "wb") as fp:   #Pickling
+        pickle.dump(l, fp)
+        fp.close()
+
+def clearFile(fileName):
+    with open(fileName, "rb") as fp:   # Unpickling
+        fp.truncate(0)
+        fp.close()
+        
+def loadList(fileName):
+    with open(fileName, "rb") as fp:   # Unpickling
+        res = pickle.load(fp)
+        fp.close()
+    return res
+
+def updateHoF(weights, fitnesses):
+    """
+    mets a jour le HoF si un genome a eu un meilleur score que le precedent meilleur ( creer un fichier HoF sinon)
+    je pense qu'il est plus coherent de d'utiliser la fitness de REFERENCE ici en fitnesses
+    
+    """
+    bestIndex = np.argsort(fitnesses)[-1]
+    bestWeights = weights[bestIndex]
+    assert fitnesses[bestIndex]==np.max(fitnesses)
+    if os.path.isfile("HallOfFame"):
+        #le fichier existe deja
+        if fitnesses[bestIndex]>loadList("HallOfFame")[0]:
+            clearFile("HallOfFame")
+            scoreAndWeights=[fitnesses[bestIndex],bestWeights]
+            saveList(scoreAndWeights,"HallOfFame")
+    else:
+        #le fichier n'existe pas encore
+        scoreAndWeights=[fitnesses[bestIndex],bestWeights]
+        saveList(scoreAndWeights,"HallOfFame")
+
+def apply_HoF(rob:Pyroborobo):
+    hoF=loadList("HallOfFame")
+    print("le genome du Hall of Fame avait eu un score de "+str(hoF[0]))
+    bestWeights=hoF[1]
+    apply_weights(rob,bestWeights)
+    

@@ -20,7 +20,7 @@ from objects import SwitchObject, UWallObject, Feuille
 gen_to_track=[0,5,10,15,25]
 def main():
     nbgen = 40
-    nbiterpergen = 200
+    nbiterpergen = 4000
     lambda_=20
     mu=5
     performance_list=[]
@@ -80,7 +80,9 @@ def main():
         performance_list_ded.append(np.mean(performance_gen_ded))
         performance_list.append(np.mean(performance_gen_ref))
    
-   	       #ou utiliser fitprop ici ou tout algo de selection de type ES
+        #on garde le meilleur genome en memoire
+        updateHoF(all_genomes, performance_gen_ref)
+   	    #ou utiliser fitprop ici ou tout algo de selection de type ES
         all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,mu,lambda_)
         """
         if igen in gen_to_track:
