@@ -139,6 +139,5 @@ def updateHoF(weights, fitnesses):
 def apply_HoF(rob:Pyroborobo):
     hoF=loadList("HallOfFame")
     print("le genome du Hall of Fame avait eu un score de "+str(hoF[0]))
-    bestWeights=hoF[1]
-    apply_weights(rob,bestWeights)
-    
+    bestWeights=np.array(hoF[1])
+    apply_weight_clonal(rob,bestWeights)
