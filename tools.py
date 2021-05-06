@@ -54,7 +54,7 @@ def fitprop(weights, fitnesses,sigma=0.01):
     new_weights_mutate = np.random.normal(new_weights, sigma)
     return new_weights_mutate
 
-def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.01):
+def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.1):
     # select
     index_mu_best=np.argsort(-np.array(fitnesses))[:mu]
     print("indices des meilleurs genomes")
@@ -106,7 +106,7 @@ def saveList(l,fileName):
         fp.close()
 
 def clearFile(fileName):
-    with open(fileName, "rb") as fp:   # Unpickling
+    with open(fileName, "wb") as fp:   # Unpickling
         fp.truncate(0)
         fp.close()
         
@@ -128,6 +128,7 @@ def updateHoF(weights, fitnesses):
     if os.path.isfile("HallOfFame"):
         #le fichier existe deja
         if fitnesses[bestIndex]>loadList("HallOfFame")[0]:
+            print("Le HoF est maj")
             clearFile("HallOfFame")
             scoreAndWeights=[fitnesses[bestIndex],bestWeights]
             saveList(scoreAndWeights,"HallOfFame")
