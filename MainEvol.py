@@ -22,6 +22,7 @@ def main():
     nbgen = 40
     nbiterpergen = 4000
     lambda_=20
+    nb_repet = 3
     mu=5
     performance_list=[]
     performance_list_ded=[]
@@ -54,28 +55,28 @@ def main():
             i = i+1
             s2 = ("genome:",i)
             debug.append(s2)
-            print("*" * 10,"genome:",i, "*" * 10)
-            apply_weight_clonal(rob,genome)
-            tps1 = time.time()
-            stop = rob.update(nbiterpergen)
-            if stop:
-                break
-            tps2 = time.time()
-            print("temps test genome :",tps2 - tps1)
-            #fitness dediee de chaque agent/robot
-            fitnesses_ded_list = get_fitnesses_ded(rob)
-            #fitness dediee totale pour ce genome
-            fitness_ded_genome=np.sum(fitnesses_ded_list)+get_global_fitnesses(rob)
-            performance_gen_ded.append(fitness_ded_genome)
-            #performance_gen_ref= get_reference_function(rob)
-            performance_gen_ref.append(get_reference_function(rob))
-            print("debug:",debug)
-            tps1 = time.time()
-            reset_world_observer(rob)
-            tps2 = time.time()
-            print("temps reset_world_observer:",tps2 - tps1)
-            reset_agent_controllers(rob)
-            
+           # print("*" * 10,"genome:",i, "*" * 10)
+            performance_gen_ref_repet = []
+            performance_gen_ded_repet = []
+            for z in range(nb_repet):
+                apply_weight_clonal(rob,genome)
+                tps1 = time.time()
+                stop = rob.update(nbiterpergen)
+                if stop:
+                    break
+                tps2 = time.time()
+               # print("temps test genome :",tps2 - tps1)
+                #fitness dediee de chaque agent/robot
+                fitnesses_ded_list = get_fitnesses_ded(rob)
+                #fitness dediee totale pour ce genome
+                fitness_ded_genome=np.sum(fitnesses_ded_list)+get_global_fitnesses(rob)
+                performance_gen_ded_repet.append(fitness_ded_genome)
+                performance_gen_ref_repet.append(get_reference_function(rob))
+                reset_world_observer(rob)
+                reset_agent_controllers(rob)
+      
+            performance_gen_ded.append(np.mean(performance_gen_ded_repet))
+            performance_gen_ref.append(np.mean(performance_gen_ref_repet))
         
         performance_list_ded.append(np.mean(performance_gen_ded))
         performance_list.append(np.mean(performance_gen_ref))

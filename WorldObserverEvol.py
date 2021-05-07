@@ -156,7 +156,20 @@ class WorldObserverEvol(WorldObserver):
                         
                 if(y>depotMin and y < rampeYMax):
                         c.setCanDropSlope(True)
-                        # self.addPoint(20000)
+                        """if (c.getWantDrope()):
+                             p =c.absolute_position
+                             c.setObjCollected(False)
+                             obj = Feuille(self.next_id_obj)
+                             obj.unregister()
+                             x = p[0]
+                             y = 700
+                             obj.set_coordinates(x, y)
+                             obj = self.rob.add_object(obj)
+                             obj.show()
+                             obj.register()
+                             self.next_id_obj += 1
+                             self.feuille.append(obj)
+                             c.fitness += 100"""
                         
     def addPoint(self,p):
         self.global_fit=self.global_fit+p
