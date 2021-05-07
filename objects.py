@@ -56,6 +56,7 @@ class Feuille(CircleObject):
                     self.hide()
                     self.unregister()
                 else:
+                    pass
                     #print("non collecté")
         
     def isTouched(self,robid) : 
@@ -70,6 +71,7 @@ class Feuille(CircleObject):
                     self.hide()
                     self.unregister()
                 else : 
+                    pass
                     #print("non collecté")
 
 
