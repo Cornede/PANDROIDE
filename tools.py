@@ -57,11 +57,11 @@ def fitprop(weights, fitnesses,sigma=0.01):
 def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.1):
     # select
     index_mu_best=np.argsort(-np.array(fitnesses))[:mu]
-    print("indices des meilleurs genomes")
+    #print("indices des meilleurs genomes")
     bestParents = np.asarray(weights)[index_mu_best]
     # mutate
     new_weights_mutate = np.array([np.random.normal(bestParents[np.random.randint(mu)],sigma) for i in range(lambda_)])
-    print("taille:",len(new_weights_mutate))
+    #print("taille:",len(new_weights_mutate))
     return new_weights_mutate
 
 def apply_weights(rob, weights):
@@ -128,7 +128,7 @@ def updateHoF(weights, fitnesses):
     if os.path.isfile("HallOfFame"):
         #le fichier existe deja
         if fitnesses[bestIndex]>loadList("HallOfFame")[0]:
-            print("Le HoF est maj")
+            #print("Le HoF est maj")
             clearFile("HallOfFame")
             scoreAndWeights=[fitnesses[bestIndex],bestWeights]
             saveList(scoreAndWeights,"HallOfFame")
@@ -139,6 +139,14 @@ def updateHoF(weights, fitnesses):
 
 def apply_HoF(rob:Pyroborobo):
     hoF=loadList("HallOfFame")
-    print("le genome du Hall of Fame avait eu un score de "+str(hoF[0]))
     bestWeights=np.array(hoF[1])
     apply_weight_clonal(rob,bestWeights)
+
+def init_from_file(rob,fileName,lambda_):
+    ctl = rob.controllers[0]
+    res=np.zeros((lambda_,ctl.get_tot_weights()))
+    genome=loadList(fileName)[1]
+    assert ctl.get_tot_weights()==len(genome)
+    for i in range(lambda_):
+        res[i,:]=genome[:]
+    return res

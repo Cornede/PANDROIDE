@@ -16,7 +16,6 @@ Rayon_nid = 50
 
 
 
-
 class EvolController(Controller):
 
     def __init__(self, wm):
@@ -47,6 +46,7 @@ class EvolController(Controller):
 
     def get_random_weights(self):
         return np.random.normal(0, 1, (self.tot_weights))
+
     def get_tot_weights(self):
         return self.tot_weights 
     
@@ -77,34 +77,27 @@ class EvolController(Controller):
 
         
         # Quand le robot est sur la pente 
-        maxRampSpeed = 0.3
+        coeffSpeedVariation = 0.3 #pour l'instant pas variation
         p = self.absolute_position
         orientation = self.absolute_orientation
-        x = p[0]
         y = p[1]
-        if (x > 250 and x < 670 and y > 450 and y < 700 and orientation < 0.0):
-            self.set_translation(maxRampSpeed)
-        if (x > 250 and x < 670 and y > 450 and y < 700 and orientation > 0.0):
-            self.set_translation(maxRampSpeed)
+        if (y > 450 and y < 700 and orientation < 0.0):#oriente vers le haut
+            self.set_translation(np.clip(self.translation*(1-coeffSpeedVariation),-1,1))
+        if (y > 450 and y < 700 and orientation > 0.0):#oriente vers le bas
+            self.set_translation(np.clip(self.translation*(1+coeffSpeedVariation),-1,1))
             
         
         speed = self.translation
         rotspeed = np.abs(self.rotation)
         dists = np.asarray(self.get_all_distances())
         #l'agent a collecte un objet
-        """if self.getObjCollected(): 
-            #self.fitness+=10000
-            s = self.dist_eucl(nestX,nestY)
-            self.fitness += 1/np.max(1e-5,s)
-        else :"""
-        s = self.dist_eucl(nestX,0) #zone de recup des feuilles
-        self.fitness += 1/max(1e-5,s)
-        # si l'agent est au niveau de la pente et a un objet sa fitness augmente si il le lache
-        
-        """
-        if (self.getWantDrope() and self.getCanDropSlope()) :
-            self.fitness+=5000"""
-            
+        if self.getObjCollected():
+            s = self.dist_eucl(nestX,nestY)#nid
+            self.fitness += 1/max(1e-8,s)
+        """else :
+            s = self.dist_eucl(nestX,0) #zone de recup des feuilles
+            self.fitness += 1/max(1e-8,s)"""
+
 
     def get_flat_weights(self):
         all_layers = []
@@ -192,7 +185,7 @@ class EvolController(Controller):
     def setObjCollected(self,c):
         self.objCollected = c
         if(c == True):
-            print("Can not collect anymore")
+            #print("Can not collect anymore")
             self.setCanCollect(False)
             self.setIsObserved(False)
             self.setCanDropSlope(True)

@@ -31,19 +31,19 @@ def main():
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": False, "gDisplayMode": 1,"gInitialNumberOfRobots":lambda_}
     )
 
  
     rob.start()
     # un genome : une solution candidate , poids du réseau
-    all_genomes=init_random_gen(rob,lambda_)
+    all_genomes=init_from_file(rob,"HallOfFame (copie)",lambda_)
     debug = []
     for igen in range(nbgen):
         """
         if igen in gen_to_track:
             rob.init_trajectory_monitor()  """# log trajectory for all agents
-        print("*" * 10, igen, "*" * 10)
+        #print("*" * 10, igen, "*" * 10)
         ## Pour tester une solution candidate(les poids) il faudrait faire
         ## une moyenne sur plusieurs expériences et pas que sur une 
         s = ("génération:",igen)
