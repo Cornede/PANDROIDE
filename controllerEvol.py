@@ -11,7 +11,7 @@ from tools import evaluate_network
 import random
 
 nestX=370
-nestY=850
+nestY=800
 Rayon_nid = 50
 
 

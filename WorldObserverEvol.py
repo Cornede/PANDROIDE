@@ -20,7 +20,7 @@ depotMax = 450
 rampeYMin=450
 rampeYMax=700
 nestX=370
-nestY=850
+nestY=800
 Rayon_nid = 50
 
 
@@ -132,7 +132,7 @@ class WorldObserverEvol(WorldObserver):
         arena_size = np.asarray(self.rob.arena_size)
         landmark = self.rob.add_landmark()
         landmark.radius = 20
-        landmark.set_coordinates(370,850)
+        landmark.set_coordinates(370,nestY)
         landmark.show()
         
     def step_pre(self):
@@ -146,11 +146,11 @@ class WorldObserverEvol(WorldObserver):
 
                 ori = c.absolute_orientation
                 # on est dans la zone du nid
-                if(nestX-Rayon_nid <=x<=nestX+Rayon_nid and nestY-Rayon_nid <= y <= nestY+Rayon_nid and c.getWantDrope()):
+                if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
                         #c.fitness += 50000
-                        print("Dropped in nest!")
+                        # print("Dropped in nest!")
                         self.reference_function += 1
                         #self.addPoint(50000)
                         

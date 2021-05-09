@@ -54,11 +54,12 @@ def fitprop(weights, fitnesses,sigma=0.01):
     new_weights_mutate = np.random.normal(new_weights, sigma)
     return new_weights_mutate
 
-def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.1):
+def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.0001):
     # select
     index_mu_best=np.argsort(-np.array(fitnesses))[:mu]
-    #print("indices des meilleurs genomes")
+   # print("meilleur index :", index_mu_best)
     bestParents = np.asarray(weights)[index_mu_best]
+   # print("meilleur parents :", bestParents)
     # mutate
     new_weights_mutate = np.array([np.random.normal(bestParents[np.random.randint(mu)],sigma) for i in range(lambda_)])
     #print("taille:",len(new_weights_mutate))
