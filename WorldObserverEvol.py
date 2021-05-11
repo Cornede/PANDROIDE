@@ -149,13 +149,18 @@ class WorldObserverEvol(WorldObserver):
                 if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
-                        #c.fitness += 50000
+                        c.id_object = 0
+                        c.fitness += 100
+                        c.fitness -= c.s
+                        c.s = 0
                         # print("Dropped in nest!")
                         self.reference_function += 1
                         #self.addPoint(50000)
                         
                 if(y>depotMin and y < rampeYMax):
                         c.setCanDropSlope(True)
+                        
+                        # fitness du lacher dans la pente
                         """if (c.getWantDrope()):
                              p =c.absolute_position
                              c.setObjCollected(False)
@@ -172,7 +177,6 @@ class WorldObserverEvol(WorldObserver):
                              c.fitness += 100"""
                         
     def addPoint(self,p):
-        self.global_fit=self.global_fit+p
         self.pointCount+= p
    
         

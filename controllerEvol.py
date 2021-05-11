@@ -41,6 +41,9 @@ class EvolController(Controller):
         self.zones=np.zeros(self.nb_zones)
         
         self.fitness = 0
+        self.s = 0 # pour stocker la distance euclidienne
+        
+        self.id_object = 0 # pour savoir quel objet on transporte
         
         
 
@@ -57,6 +60,7 @@ class EvolController(Controller):
     def reset(self):
        #pass
        self.fitness = 0
+       self.s = 0
        self.wantDrop=False
        self.setObjCollected(False)
        self.setCanInstantDrop(False)
@@ -92,11 +96,21 @@ class EvolController(Controller):
         dists = np.asarray(self.get_all_distances())
         #l'agent a collecte un objet
         if self.getObjCollected():
-            s = self.dist_eucl(nestX,nestY)#nid
-            self.fitness += 1/max(1e-8,s)
+            d = self.dist_eucl(nestX,nestY)
+            self.s += 1/max(1e-8,d)#nid
+            self.fitness += 1/max(1e-8,d)
+            
+        # fitness avec distance au zone des feuilles
         """else :
             s = self.dist_eucl(nestX,0) #zone de recup des feuilles
             self.fitness += 1/max(1e-8,s)"""
+        
+        # fitness avec le nombre de fois qu'un objet a été transporté
+        """
+        if self.getObjCollected():
+            nb_taken = Feuille(self.id_object).nbRobot
+            self.fitness += 10*nb_taken
+        """
 
 
     def get_flat_weights(self):

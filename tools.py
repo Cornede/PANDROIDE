@@ -54,7 +54,7 @@ def fitprop(weights, fitnesses,sigma=0.01):
     new_weights_mutate = np.random.normal(new_weights, sigma)
     return new_weights_mutate
 
-def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.0001):
+def mu_comma_lambda_nextgen(weights, fitnesses,mu,lambda_,sigma=0.01):
     # select
     index_mu_best=np.argsort(-np.array(fitnesses))[:mu]
    # print("meilleur index :", index_mu_best)

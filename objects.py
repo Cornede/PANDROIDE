@@ -17,12 +17,15 @@ class Feuille(CircleObject):
         #self.default_x = copy.copy(data["x"])
         #self.default_y = copy.copy(data["y"])
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
+        
+        self.nbRobot = 0 # nombre de robot qui l'ont transporté jusqu'a présent
 
     def reset(self):
         #self.show()
         #self.register()
         self.triggered = False
         self.cur_regrow = 0
+        self.nbRobot = 0
 
 
 
@@ -51,6 +54,9 @@ class Feuille(CircleObject):
                     #print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
+                    c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                    
+                    self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
                     self.cur_regrow = self.regrow_time
                     self.hide()
@@ -66,6 +72,9 @@ class Feuille(CircleObject):
                     #print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
+                    c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                    
+                    self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
                     self.cur_regrow = self.regrow_time
                     self.hide()

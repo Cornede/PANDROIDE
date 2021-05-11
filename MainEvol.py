@@ -13,26 +13,32 @@ from tools import *
 import matplotlib
 import matplotlib.pyplot as plt
 import time
+import csv 
 
 
 
 from objects import SwitchObject, UWallObject, Feuille
 
+
 gen_to_track=[0,5,10,15,25]
 def main():
-    nbgen = 40
-    nbiterpergen = 1000
+    nbgen = 2
+    nbiterpergen = 200
     lambda_=20
-    nb_repet = 3
+    nb_repet = 1
     mu=5
+    bestFit = 0
+    data = []
     performance_list=[]
     performance_list_ded=[]
+    performance_list2=[]
+    performance_list_ded2=[]
     rob: Pyroborobo = Pyroborobo.create(
         "config/test.properties",
         controller_class=EvolController,
         world_observer_class=WorldObserverEvol,
         object_class_dict={'uwall': UWallObject, 'switch': SwitchObject,'feuille': Feuille},
-        override_conf_dict={"gBatchMode": False, "gDisplayMode": 0,"gInitialNumberOfRobots":lambda_}
+        override_conf_dict={"gBatchMode": True, "gDisplayMode": 2,"gInitialNumberOfRobots":lambda_}
     )
 
  
@@ -56,41 +62,43 @@ def main():
             i = i+1
             s2 = ("genome:",i)
             debug.append(s2)
-            print("*" * 10,"genome:",i, "*" * 10)
+            # print("*" * 10,"genome:",i, "*" * 10)
            # print("genome",genome)
             performance_gen_ref_repet = []
             performance_gen_ded_repet = []
             for z in range(nb_repet):
                 
-                tps1 = time.time()
                 apply_weight_clonal(rob,genome)
                 #print("weight:",get_weights(rob))
-                tps2 = time.time()
-               # print("temps apply_weights :",tps2 - tps1)
                 
-                tps1 = time.time()
+                #tps1 = time.time()
                 stop = rob.update(nbiterpergen)
                 if stop:
                     break
-                tps2 = time.time()
-                print("temps test genome :",tps2 - tps1)
+               # tps2 = time.time()
+                #print("temps test genome :",tps2 - tps1)
                 #fitness dediee de chaque agent/robot
                 fitnesses_ded_list = get_fitnesses_ded(rob)
                 #fitness dediee totale pour ce genome
-                fitness_ded_genome=np.sum(fitnesses_ded_list)+get_global_fitnesses(rob)
+                fitness_ded_genome=np.sum(fitnesses_ded_list)
                 performance_gen_ded_repet.append(fitness_ded_genome)
                 performance_gen_ref_repet.append(get_reference_function(rob))
-                tps1 = time.time()
                 reset_world_observer(rob)
                 reset_agent_controllers(rob)
-                tps2 = time.time()
-                #print("temps reset :",tps2 - tps1)
       
             performance_gen_ded.append(np.mean(performance_gen_ded_repet))
             performance_gen_ref.append(np.mean(performance_gen_ref_repet))
         
-       # performance_list_ded.append(np.mean(performance_gen_ded))
-       # performance_list.append(np.mean(performance_gen_ref))
+        fitness_max = np.max(performance_gen_ded)
+        score_max = np.max(performance_gen_ref)
+        s = (fitness_max,score_max)
+        data.append(s)
+        
+        if bestFit<np.mean(performance_gen_ded):
+            bestFit = np.mean(performance_gen_ded)
+            
+        performance_list_ded2.append(bestFit)
+        performance_list2.append(np.mean(performance_gen_ref))
         
         performance_list_ded.append(performance_gen_ded)
         performance_list.append(performance_gen_ref)
@@ -98,49 +106,38 @@ def main():
         #on garde le meilleur genome en memoire
         updateHoF(all_genomes, performance_gen_ref)
         
-        tps1 = time.time()
    	    #ou utiliser fitprop ici ou tout algo de selection de type ES
         #print("performance dédiée:",performance_gen_ded)
         all_genomes = mu_comma_lambda_nextgen(all_genomes, performance_gen_ded,mu,lambda_)
-        tps2 = time.time()
-       # print("temps mu_comma_lambda :",tps2 - tps1)
         
         """
         if igen in gen_to_track:
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
         
         
-        """
-        plt.plot(np.arange(len(performance_list)),performance_list)
+        
+        plt.plot(np.arange(len(performance_list2)),performance_list2)
         plt.xlabel("génération")
-        plt.ylabel("performance")
-        plt.title("graphe_de_performance_ref")
+        plt.ylabel("Score")
+        plt.title("graphe_evolution_score")
         plt.savefig("graphe_de_performance_ref")
         plt.figure()
         
         
-        plt.plot(np.arange(len(performance_list_ded)),performance_list_ded)
+        plt.plot(np.arange(len(performance_list_ded2)),performance_list_ded2)
         plt.xlabel("génération")
-        plt.ylabel("performance")
-        plt.title("graphe_de_performance_ded")
+        plt.ylabel("Fitness")
+        plt.title("graphe_evolution_fitness")
         plt.savefig("graphe_de_performance_ded")
-        plt.figure()"""
-        
-
-        
-        # fitness_ded
-        plt.boxplot(performance_list_ded,manage_ticks=True)
-        plt.title("Performance_ded")
-        plt.savefig("Boxplot_de_performance_ded")
         plt.figure()
         
-        # fitness_ref
-        plt.boxplot(performance_list,manage_ticks=True)
-        plt.title("Performance_ref")
-        plt.savefig("Boxplot_de_performance_ref")
-        plt.figure()
+      
         
-                
+    with open('test.csv','w+') as out:
+        csv_out=csv.writer(out)
+        csv_out.writerow(['bestFit','BestScore'])
+        for row in data:
+            csv_out.writerow(row)          
             
     plt.show()
     
