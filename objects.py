@@ -54,9 +54,9 @@ class Feuille(CircleObject):
                     #print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                    #c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
-                    self.nbRobot +=1 # elle a été pris par un robot supplémentaire
+                    #self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
                     self.cur_regrow = self.regrow_time
                     self.hide()
@@ -72,9 +72,9 @@ class Feuille(CircleObject):
                     #print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                   # c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
-                    self.nbRobot +=1 # elle a été pris par un robot supplémentaire
+                   # self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
                     self.cur_regrow = self.regrow_time
                     self.hide()

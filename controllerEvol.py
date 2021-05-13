@@ -94,11 +94,13 @@ class EvolController(Controller):
         speed = self.translation
         rotspeed = np.abs(self.rotation)
         dists = np.asarray(self.get_all_distances())
-        #l'agent a collecte un objet
+        
+        #l'agent a collecte un objet distance euclidienne au nid
+        """
         if self.getObjCollected():
             d = self.dist_eucl(nestX,nestY)
             self.s += 1/max(1e-8,d)#nid
-            self.fitness += 1/max(1e-8,d)
+            self.fitness += 1/max(1e-8,d)"""
             
         # fitness avec distance au zone des feuilles
         """else :

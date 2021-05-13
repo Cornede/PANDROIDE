@@ -149,10 +149,10 @@ class WorldObserverEvol(WorldObserver):
                 if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
-                        c.id_object = 0
-                        c.fitness += 100
-                        c.fitness -= c.s
-                        c.s = 0
+                        #c.id_object = 0
+                        c.fitness += 1
+                       # c.fitness -= c.s
+                       # c.s = 0
                         # print("Dropped in nest!")
                         self.reference_function += 1
                         #self.addPoint(50000)

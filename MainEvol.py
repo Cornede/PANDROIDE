@@ -22,13 +22,14 @@ from objects import SwitchObject, UWallObject, Feuille
 
 gen_to_track=[0,5,10,15,25]
 def main():
-    nbgen = 2
+    nbgen = 5
     nbiterpergen = 200
     lambda_=20
     nb_repet = 1
     mu=5
     bestFit = 0
     data = []
+    data2 = []
     performance_list=[]
     performance_list_ded=[]
     performance_list2=[]
@@ -91,8 +92,10 @@ def main():
         
         fitness_max = np.max(performance_gen_ded)
         score_max = np.max(performance_gen_ref)
-        s = (fitness_max,score_max)
+        s = (igen,igen,fitness_max)
+        s2 = (igen,igen,score_max)
         data.append(s)
+        data2.append(s2)
         
         if bestFit<np.mean(performance_gen_ded):
             bestFit = np.mean(performance_gen_ded)
@@ -133,13 +136,18 @@ def main():
         
       
         
-    with open('test.csv','w+') as out:
+    with open('score.csv','w+') as out:
         csv_out=csv.writer(out)
-        csv_out.writerow(['bestFit','BestScore'])
+        for row in data2:
+            csv_out.writerow(row)        
+        
+           
+    with open('fitness.csv','w+') as out:
+        csv_out=csv.writer(out)
         for row in data:
-            csv_out.writerow(row)          
+            csv_out.writerow(row)     
             
-    plt.show()
+    # plt.show()
     
 if __name__ == "__main__":
     main()
