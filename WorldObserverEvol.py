@@ -19,7 +19,7 @@ depotMin = 400
 depotMax = 450
 rampeYMin=450
 rampeYMax=700
-nestX=370
+#nestX=370
 nestY=800
 Rayon_nid = 50
 
@@ -77,7 +77,7 @@ class WorldObserverEvol(WorldObserver):
         self.pointCount = 0
         self.reference_function = 0
         self.next_id_obj = 8
-        self.nb_objects = 20
+        self.nb_objects = 25
         self.feuille = []
         
     def init_post(self):
@@ -150,12 +150,10 @@ class WorldObserverEvol(WorldObserver):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
                         #c.id_object = 0
-                        c.fitness += 1
+                        #c.fitness += 1
                        # c.fitness -= c.s
                        # c.s = 0
-                        # print("Dropped in nest!")
                         self.reference_function += 1
-                        #self.addPoint(50000)
                         
                 if(y>depotMin and y < rampeYMax):
                         c.setCanDropSlope(True)

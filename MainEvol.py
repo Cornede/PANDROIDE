@@ -22,10 +22,10 @@ from objects import SwitchObject, UWallObject, Feuille
 
 gen_to_track=[0,5,10,15,25]
 def main():
-    nbgen = 5
-    nbiterpergen = 200
+    nbgen = 150
+    nbiterpergen = 3000
     lambda_=20
-    nb_repet = 1
+    nb_repet = 3
     mu=5
     bestFit = 0
     data = []

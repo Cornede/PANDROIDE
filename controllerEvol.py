@@ -74,7 +74,7 @@ class EvolController(Controller):
         input = np.concatenate((self.get_all_distances(),[self.getIsObserved(),self.getObjCollected(),self.absolute_orientation]))
 
         out = np.clip(evaluate_network(input, self.weights), -1, 1)
-        self.set_translation(out[0])
+        normalT = out[0]
         self.set_rotation(out[1])
         self.setWantDrope(out[2])#depot ou non d objet
         self.setWantTake(out[3])
@@ -83,12 +83,35 @@ class EvolController(Controller):
         # Quand le robot est sur la pente 
         coeffSpeedVariation = 0.3 #pour l'instant pas variation
         p = self.absolute_position
+        
+        maxRampSpeed = 0.3;
+        minRampSpeed = -0.3;
+        
         orientation = self.absolute_orientation
         y = p[1]
+        
         if (y > 450 and y < 700 and orientation < 0.0):#oriente vers le haut
-            self.set_translation(np.clip(self.translation*(1-coeffSpeedVariation),-1,1))
-        if (y > 450 and y < 700 and orientation > 0.0):#oriente vers le bas
-            self.set_translation(np.clip(self.translation*(1+coeffSpeedVariation),-1,1))
+        
+                if(normalT > maxRampSpeed):
+                     self.set_translation(maxRampSpeed)
+                     
+                elif(normalT < minRampSpeed):
+                     self.set_translation(minRampSpeed)
+                     
+                else:
+                     self.set_translation(min(1,normalT))
+            
+            
+        elif (y > 450 and y < 700 and orientation >= 0.0):#oriente vers le bas
+            if (normalT<= 0.9):
+                normalT += 0.2
+            elif (normalT >= -0.9):
+                normalT -= 0.2;
+            self.set_translation(min(1,normalT))
+            
+        else:
+            
+            self.set_translation(min(1,normalT))
             
         
         speed = self.translation
@@ -96,11 +119,11 @@ class EvolController(Controller):
         dists = np.asarray(self.get_all_distances())
         
         #l'agent a collecte un objet distance euclidienne au nid
-        """
+        
         if self.getObjCollected():
-            d = self.dist_eucl(nestX,nestY)
-            self.s += 1/max(1e-8,d)#nid
-            self.fitness += 1/max(1e-8,d)"""
+            d = (y-nestY)**2
+            #self.s += 1/max(1e-8,d)#nid
+            self.fitness += 1/max(1e-8,d)
             
         # fitness avec distance au zone des feuilles
         """else :
