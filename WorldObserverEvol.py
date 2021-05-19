@@ -142,37 +142,50 @@ class WorldObserverEvol(WorldObserver):
             x = p[0]
             y = p[1]
 
-            if(c.getCanInstantDrop()==True and c.getWantDrope()):
+            if(c.getCanInstantDrop()==True and c.getObjCollected()): # Si on a un objet on peut le lacher 
 
                 ori = c.absolute_orientation
+                
                 # on est dans la zone du nid
                 if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
+                        obj = Feuille(c.id_object_transported)
+                        obj.dropped_in_nest = True 
                         #c.id_object = 0
                         #c.fitness += 1
                        # c.fitness -= c.s
                        # c.s = 0
                         self.reference_function += 1
-                        
-                if(y>depotMin and y < rampeYMax):
-                        c.setCanDropSlope(True)
-                        
-                        # fitness du lacher dans la pente
-                        """if (c.getWantDrope()):
+                
+                # on est dans la zone de la pente
+                elif(y>depotMin and y < depotMax):
+                    if (c.getWantDrope()):
                              p =c.absolute_position
                              c.setObjCollected(False)
-                             obj = Feuille(self.next_id_obj)
-                             obj.unregister()
+                             obj = Feuille(c.id_object_transported)
                              x = p[0]
                              y = 700
                              obj.set_coordinates(x, y)
-                             obj = self.rob.add_object(obj)
-                             obj.show()
                              obj.register()
-                             self.next_id_obj += 1
-                             self.feuille.append(obj)
-                             c.fitness += 100"""
+                             obj.show()
+                             obj.triggered = False
+                             c.setObjCollected(False)
+                             c.setCanInstantDrop(False)
+                             
+                elif(c.getWantDrope()):
+                    p =c.absolute_position
+                    c.setObjCollected(False)
+                    obj = Feuille(c.id_object_transported)
+                    x = p[0]
+                    y = p[1]
+                    obj.set_coordinates(x, y)
+                    obj.register()
+                    obj.show()
+                    obj.triggered = False
+                    c.setObjCollected(False)
+                    c.setCanInstantDrop(False)
+                    
                         
     def addPoint(self,p):
         self.pointCount+= p

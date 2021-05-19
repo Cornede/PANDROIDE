@@ -43,7 +43,9 @@ class EvolController(Controller):
         self.fitness = 0
         self.s = 0 # pour stocker la distance euclidienne
         
-        self.id_object = 0 # pour savoir quel objet on transporte
+        self.objects_transported = []
+        
+        self.id_object_transported= 0 # pour savoir quel objet on transporte actuellement
         
         
 
@@ -61,6 +63,9 @@ class EvolController(Controller):
        #pass
        self.fitness = 0
        self.s = 0
+       self.objects_transported = []
+       self.id_object_transported= 0
+       
        self.wantDrop=False
        self.setObjCollected(False)
        self.setCanInstantDrop(False)

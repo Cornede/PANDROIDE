@@ -14,25 +14,29 @@ class Feuille(CircleObject):
         self.regrow_time = 50
         self.cur_regrow = 0
         self.data = data
+        
         #self.default_x = copy.copy(data["x"])
         #self.default_y = copy.copy(data["y"])
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
         
+        self.dropped_in_nest = False
         self.nbRobot = 0 # nombre de robot qui l'ont transporté jusqu'a présent
 
     def reset(self):
         #self.show()
         #self.register()
         self.triggered = False
+        self.dropped_in_nest = False
         self.cur_regrow = 0
         self.nbRobot = 0
 
 
 
     def step(self):
-       if self.triggered:
-            self.cur_regrow -= 1
-            if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
+       #if self.triggered:
+            #self.cur_regrow -= 1
+            #if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
+            if self.dropped_in_nest:
                 x = randint(100, 650)
                 y = randint(120, 450) 
                 self.set_coordinates(x, y)
@@ -45,6 +49,7 @@ class Feuille(CircleObject):
                 self.register()
                 self.show()
                 self.triggered = False
+                self.dropped_in_nest = False
                  
                  
     def is_walked(self, robid):
@@ -54,7 +59,7 @@ class Feuille(CircleObject):
                     #print("Collecté")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                    #c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                    c.id_object_transported = self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
                     #self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
@@ -72,7 +77,7 @@ class Feuille(CircleObject):
                     #print("Collected")
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
-                   # c.id_object = self.id # on donne l'identifiant de l'objet au robot qui le transporte
+                    c.id_object_transported= self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
                    # self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     self.triggered = True
