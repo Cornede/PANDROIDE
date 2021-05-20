@@ -114,6 +114,7 @@ class WorldObserverEvol(WorldObserver):
                   y = randint(120, 450) 
                   obj.set_coordinates(x, y)
                   b = obj.can_register()
+            print("Register obj (",obj.get_id(),") :", b)      
                   
             obj = self.rob.add_object(obj)
             obj.show()
@@ -150,8 +151,11 @@ class WorldObserverEvol(WorldObserver):
                 if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
-                        obj = Feuille(c.id_object_transported)
-                        obj.dropped_in_nest = True 
+                        #obj = Feuille(c.id_object_transported)
+                        for obj in self.feuille:
+                            if (obj.id == c.id_object_transported):
+                                #print("obj_id:", obj.id)
+                                obj.dropped_in_nest = True 
                         #c.id_object = 0
                         #c.fitness += 1
                        # c.fitness -= c.s
@@ -161,28 +165,42 @@ class WorldObserverEvol(WorldObserver):
                 # on est dans la zone de la pente
                 elif(y>depotMin and y < depotMax):
                     if (c.getWantDrope()):
-                             p =c.absolute_position
-                             c.setObjCollected(False)
-                             obj = Feuille(c.id_object_transported)
-                             x = p[0]
-                             y = 700
-                             obj.set_coordinates(x, y)
-                             obj.register()
-                             obj.show()
-                             obj.triggered = False
-                             c.setObjCollected(False)
-                             c.setCanInstantDrop(False)
+                            p =c.absolute_position
+                            c.setObjCollected(False)
+                            #obj = Feuille(c.id_object_transported)
+                            for obj in self.feuille:
+                                if (obj.id == c.id_object_transported):
+                                    #print("obj_id:", obj.id)
+                                    obj.dropped_in_nest = True 
+                                    x = p[0]
+                                    y = 700
+                                    obj.hide()
+                                    obj.unregister()
+                                    obj.set_coordinates(x, y)
+                                    obj.register()
+                                    obj.show()
+                                    #obj.triggered = True
+                                    #obj.respawn(x, y)
+                                    print(obj.id, " relaché par rob ", c.get_id())
+                            c.setObjCollected(False)
+                            c.setCanInstantDrop(False)
                              
                 elif(c.getWantDrope()):
                     p =c.absolute_position
                     c.setObjCollected(False)
-                    obj = Feuille(c.id_object_transported)
-                    x = p[0]
-                    y = p[1]
-                    obj.set_coordinates(x, y)
-                    obj.register()
-                    obj.show()
-                    obj.triggered = False
+                    #obj = Feuille(c.id_object_transported)
+                    for obj in self.feuille:
+                        if (obj.id == c.id_object_transported):
+                            #print("obj_id:", obj.id)
+                            x = p[0]
+                            y = p[1]
+                            obj.hide()
+                            obj.unregister()
+                            obj.set_coordinates(x, y)
+                            obj.register()
+                            obj.show()
+                            obj.triggered = False
+                            print(obj.id, " relaché par rob ", c.get_id())
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)
                     

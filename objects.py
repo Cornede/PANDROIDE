@@ -11,9 +11,12 @@ class Feuille(CircleObject):
         self.set_color(0, 255, 0)
         self.type = 4
         self.triggered = False
-        self.regrow_time = 50
-        self.cur_regrow = 0
+        #self.regrow_time = 50
+        self.cur_regrow = 50
         self.data = data
+        self.new_x = 0
+        self.new_y = 0
+        self.take = True
         
         #self.default_x = copy.copy(data["x"])
         #self.default_y = copy.copy(data["y"])
@@ -33,44 +36,60 @@ class Feuille(CircleObject):
 
 
     def step(self):
-       #if self.triggered:
-            #self.cur_regrow -= 1
-            #if self.cur_regrow <= 0: # on fait réapparaitre l'objet après un certain temps
-            if self.dropped_in_nest:
-                x = randint(100, 650)
-                y = randint(120, 450) 
-                self.set_coordinates(x, y)
-                b = self.can_register()
-                while(b==False):
-                      x = randint(100, 650)
-                      y = randint(120, 450) 
-                      self.set_coordinates(x, y)
-                      b = self.can_register()
+        """if self.triggered:
+            self.cur_regrow -= 1
+            if self.cur_regrow <= 0:
+                self.set_coordinates(self.new_x, self.new_y)
                 self.register()
                 self.show()
                 self.triggered = False
-                self.dropped_in_nest = False
+                self.cur_regrow = 0
+                self.take = True"""
+        
+        if self.dropped_in_nest:
+            x = randint(100, 650)
+            y = randint(120, 450) 
+            self.hide();
+            self.unregister();
+            self.set_coordinates(x, y)
+            b = self.can_register()
+            while(b==False):
+                  x = randint(100, 650)
+                  y = randint(120, 450) 
+                  self.set_coordinates(x, y)
+                  b = self.can_register()
+            self.register()
+            self.show()
+            self.triggered = False
+            self.dropped_in_nest = False
+            self.take = True
                  
-                 
+    def respawn(self, x, y):
+        self.new_x = x
+        self.new_y = y
+        
+
     def is_walked(self, robid):
         for c in self.rob.controllers:
             if(c.get_id() == robid):
-                if(c.getCanCollect() == True and c.getWantTake()):
-                    #print("Collecté")
+                if(c.getCanCollect() == True and c.getWantTake() and self.take == True):
+                    print(self.id, " Collecté par rob ", robid)
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
                     c.id_object_transported = self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
                     #self.nbRobot +=1 # elle a été pris par un robot supplémentaire
-                    self.triggered = True
-                    self.cur_regrow = self.regrow_time
+                    #self.triggered = True
+                    #self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
+                    self.take = False
+                    break
                 else:
                     pass
                     #print("non collecté")
         
-    def isTouched(self,robid) : 
+    """def isTouched(self,robid) : 
         for c in self.rob.controllers:
             if(c.get_id() == robid):
                 if(c.getCanCollect() == True and c.getWantTake()):
@@ -86,7 +105,7 @@ class Feuille(CircleObject):
                     self.unregister()
                 else : 
                     pass
-                    #print("non collecté")
+                    #print("non collecté")"""
 
 
 
