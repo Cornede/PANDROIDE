@@ -1,6 +1,5 @@
 from pyroborobo import Pyroborobo, Controller, CircleObject, SquareObject
 import copy
-from controllersTest import ControllerTest
 from random import *
 
 class Feuille(CircleObject):

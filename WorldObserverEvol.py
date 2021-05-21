@@ -102,19 +102,27 @@ class WorldObserverEvol(WorldObserver):
         
         for i in range (self.nb_objects):
             obj = Feuille(self.next_id_obj)
+            
+            obj.hide()
             obj.unregister()
 
             x = randint(100, 650)
             y = randint(120, 450) 
-    
+            
+            for f in self.feuille:
+                p = f.position
+                while (p[0] == x and p[1] == y):
+                     x = randint(100, 650)
+                     y = randint(120, 450) 
+            
+            
             obj.set_coordinates(x, y)
             b = obj.can_register()
             while(b==False):
                   x = randint(100, 650)
                   y = randint(120, 450) 
                   obj.set_coordinates(x, y)
-                  b = obj.can_register()
-            print("Register obj (",obj.get_id(),") :", b)      
+                  b = obj.can_register()   
                   
             obj = self.rob.add_object(obj)
             obj.show()
@@ -225,7 +233,9 @@ class WorldObserverEvol(WorldObserver):
             y = randint(120, 450) 
             obj.hide()
             obj.unregister()
+            
             obj.set_coordinates(x, y)
+            
             
             b = obj.can_register()
             while(b==False):
