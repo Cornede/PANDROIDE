@@ -32,6 +32,7 @@ class Feuille(CircleObject):
         self.dropped_in_nest = False
         self.cur_regrow = 0
         self.nbRobot = 0
+        self.take = True
 
 
 
@@ -73,7 +74,6 @@ class Feuille(CircleObject):
         for c in self.rob.controllers:
             if(c.get_id() == robid):
                 if(c.getCanCollect() == True and c.getWantTake() and self.take == True):
-                    print(self.id, " Collecté par rob ", robid)
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
                     c.id_object_transported = self.id # on donne l'identifiant de l'objet au robot qui le transporte

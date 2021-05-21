@@ -151,39 +151,39 @@ class WorldObserverEvol(WorldObserver):
                 if(nestY <= y and c.getWantDrope()):
                         c.setObjCollected(False)
                         c.setCanInstantDrop(False)
-                        #obj = Feuille(c.id_object_transported)
                         for obj in self.feuille:
                             if (obj.id == c.id_object_transported):
                                 #print("obj_id:", obj.id)
                                 obj.dropped_in_nest = True 
                         #c.id_object = 0
-                        #c.fitness += 1
+                        c.fitness += 1
                        # c.fitness -= c.s
                        # c.s = 0
                         self.reference_function += 1
+                        c.id_object_transported=0
                 
                 # on est dans la zone de la pente
-                elif(y>depotMin and y < depotMax):
-                    if (c.getWantDrope()):
-                            p =c.absolute_position
-                            c.setObjCollected(False)
-                            #obj = Feuille(c.id_object_transported)
-                            for obj in self.feuille:
-                                if (obj.id == c.id_object_transported):
-                                    #print("obj_id:", obj.id)
-                                    obj.dropped_in_nest = True 
-                                    x = p[0]
-                                    y = 700
-                                    obj.hide()
-                                    obj.unregister()
-                                    obj.set_coordinates(x, y)
-                                    obj.register()
-                                    obj.show()
-                                    #obj.triggered = True
-                                    #obj.respawn(x, y)
-                                    print(obj.id, " relaché par rob ", c.get_id())
-                            c.setObjCollected(False)
-                            c.setCanInstantDrop(False)
+                elif(y>depotMin and y < depotMax and c.getWantDrope()):
+                    p =c.absolute_position
+                    #obj = Feuille(c.id_object_transported)
+                    for obj in self.feuille:
+                        if (obj.id == c.id_object_transported):
+                            #print("obj_id:", obj.id)
+                            obj.dropped_in_nest = True 
+                            x = p[0]
+                            y = 700
+                            obj.hide()
+                            obj.unregister()
+                            obj.set_coordinates(x, y)
+                            obj.register()
+                            obj.show()
+                            obj.take = True
+                            #obj.triggered = True
+                            #obj.respawn(x, y)
+                            #print(obj.id, " relaché par rob ", c.get_id())
+                    c.setObjCollected(False)
+                    c.setCanInstantDrop(False)
+                    c.id_object_transported=0
                              
                 elif(c.getWantDrope()):
                     p =c.absolute_position
@@ -200,9 +200,10 @@ class WorldObserverEvol(WorldObserver):
                             obj.register()
                             obj.show()
                             obj.triggered = False
-                            print(obj.id, " relaché par rob ", c.get_id())
+                            obj.take = True
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)
+                    c.id_object_transported=0
                     
                         
     def addPoint(self,p):
