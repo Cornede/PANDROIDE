@@ -178,9 +178,6 @@ class WorldObserverEvol(WorldObserver):
                             obj.register()
                             obj.show()
                             obj.take = True
-                            #obj.triggered = True
-                            #obj.respawn(x, y)
-                            #print(obj.id, " relaché par rob ", c.get_id())
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)
                     c.id_object_transported=0
@@ -194,12 +191,9 @@ class WorldObserverEvol(WorldObserver):
                             #print("obj_id:", obj.id)
                             x = p[0]
                             y = p[1]
-                            obj.hide()
-                            obj.unregister()
-                            obj.set_coordinates(x, y)
-                            obj.register()
-                            obj.show()
-                            obj.triggered = False
+                            obj.dropped = True
+                            obj.cur_regrow = obj.regrow_time
+                            obj.respawn(x,y)
                             obj.take = True
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)

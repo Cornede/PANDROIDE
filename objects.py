@@ -10,9 +10,8 @@ class Feuille(CircleObject):
         super().__init__(id,data)
         self.set_color(0, 255, 0)
         self.type = 4
-        self.triggered = False
-        #self.regrow_time = 50
-        self.cur_regrow = 50
+        self.regrow_time = 50
+        self.cur_regrow = 0
         self.data = data
         self.new_x = 0
         self.new_y = 0
@@ -23,13 +22,14 @@ class Feuille(CircleObject):
         self.rob = Pyroborobo.get() # Get pyroborobo singleton
         
         self.dropped_in_nest = False
+        self.dropped = False
         self.nbRobot = 0 # nombre de robot qui l'ont transporté jusqu'a présent
 
     def reset(self):
         #self.show()
         #self.register()
-        self.triggered = False
         self.dropped_in_nest = False
+        self.dropped = False
         self.cur_regrow = 0
         self.nbRobot = 0
         self.take = True
@@ -37,15 +37,18 @@ class Feuille(CircleObject):
 
 
     def step(self):
-        """if self.triggered:
+        
+        if self.dropped:
             self.cur_regrow -= 1
             if self.cur_regrow <= 0:
-                self.set_coordinates(self.new_x, self.new_y)
+                self.hide()
+                self.unregister()
+                self.set_coordinates(self.new_x, self.new_y+30)
                 self.register()
                 self.show()
-                self.triggered = False
                 self.cur_regrow = 0
-                self.take = True"""
+                self.dropped = False
+                self.take = True
         
         if self.dropped_in_nest:
             x = randint(100, 650)
@@ -61,7 +64,6 @@ class Feuille(CircleObject):
                   b = self.can_register()
             self.register()
             self.show()
-            self.triggered = False
             self.dropped_in_nest = False
             self.take = True
                  
@@ -79,7 +81,6 @@ class Feuille(CircleObject):
                     c.id_object_transported = self.id # on donne l'identifiant de l'objet au robot qui le transporte
                     
                     #self.nbRobot +=1 # elle a été pris par un robot supplémentaire
-                    #self.triggered = True
                     #self.cur_regrow = self.regrow_time
                     self.hide()
                     self.unregister()
