@@ -164,9 +164,9 @@ class WorldObserverEvol(WorldObserver):
                                 #print("obj_id:", obj.id)
                                 obj.dropped_in_nest = True 
                         #c.id_object = 0
-                        c.fitness += 1
-                       # c.fitness -= c.s
-                       # c.s = 0
+                        c.fitness += 2*c.s + 100
+                        c.fitness -= c.s
+                        c.s = 0
                         self.reference_function += 1
                         c.id_object_transported=0
                 
@@ -186,6 +186,7 @@ class WorldObserverEvol(WorldObserver):
                             obj.register()
                             obj.show()
                             obj.take = True
+                    c.s = 0
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)
                     c.id_object_transported=0
@@ -203,6 +204,7 @@ class WorldObserverEvol(WorldObserver):
                             obj.cur_regrow = obj.regrow_time
                             obj.respawn(x,y)
                             obj.take = True
+                    c.s = 0
                     c.setObjCollected(False)
                     c.setCanInstantDrop(False)
                     c.id_object_transported=0

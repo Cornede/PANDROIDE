@@ -62,7 +62,7 @@ def main():
         for genome in all_genomes:
             i = i+1
             s2 = ("genome:",i)
-            debug.append(s2)
+            #debug.append(s2)
             # print("*" * 10,"genome:",i, "*" * 10)
            # print("genome",genome)
             performance_gen_ref_repet = []
@@ -118,21 +118,21 @@ def main():
             rob.save_trajectory_image("all_agents for gen"+str(igen))"""
         
         
-        
-        plt.plot(np.arange(len(performance_list2)),performance_list2)
-        plt.xlabel("génération")
-        plt.ylabel("Score")
-        plt.title("graphe_evolution_score")
-        plt.savefig("graphe_de_performance_ref")
-        plt.figure()
-        
-        
-        plt.plot(np.arange(len(performance_list_ded2)),performance_list_ded2)
-        plt.xlabel("génération")
-        plt.ylabel("Fitness")
-        plt.title("graphe_evolution_fitness")
-        plt.savefig("graphe_de_performance_ded")
-        plt.figure()
+        if (igen%10 == 0):
+
+            plt.plot(np.arange(len(performance_list2)),performance_list2)
+            plt.xlabel("génération")
+            plt.ylabel("Score")
+            plt.title("graphe_evolution_score")
+            plt.savefig("graphe_de_performance_ref")
+            plt.figure()
+            
+            plt.plot(np.arange(len(performance_list_ded2)),performance_list_ded2)
+            plt.xlabel("génération")
+            plt.ylabel("Fitness")
+            plt.title("graphe_evolution_fitness")
+            plt.savefig("graphe_de_performance_ded")
+            plt.figure()
         
       
         
