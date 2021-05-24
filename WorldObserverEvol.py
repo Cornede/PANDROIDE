@@ -22,6 +22,8 @@ rampeYMax=700
 #nestX=370
 nestY=800
 Rayon_nid = 50
+Xmin = 0
+Xmax = (0-nestY)**2
 
 
 arena = [
@@ -150,6 +152,21 @@ class WorldObserverEvol(WorldObserver):
             p = c.absolute_position
             x = p[0]
             y = p[1]
+            
+            
+            for obj in self.feuille:
+                for id in c.objects_transported :
+                    if (obj.id == id):
+                         p = obj.position
+                         if (obj.dropped_in_nest == True):
+                             d = 0
+                         else :
+                             d = (((p[1]-nestY)**2)-Xmin)/(Xmax-Xmin)
+                         i = c.objects_transported.index(id)
+                         c.object_fitness[i] = max(1-d, c.object_fitness[i])
+                         
+            c.fitness = np.sum(c.object_fitness)
+                         
 
             if(c.getCanInstantDrop()==True and c.getObjCollected()): # Si on a un objet on peut le lacher 
 
@@ -163,9 +180,11 @@ class WorldObserverEvol(WorldObserver):
                             if (obj.id == c.id_object_transported):
                                 #print("obj_id:", obj.id)
                                 obj.dropped_in_nest = True 
+                                obj.cur_regrow = obj.regrow_time
+                         
                         #c.id_object = 0
-                        c.fitness += 2*c.s + 100
-                        c.fitness -= c.s
+                        #c.fitness += 3500
+                        #c.fitness -= c.s
                         c.s = 0
                         self.reference_function += 1
                         c.id_object_transported=0

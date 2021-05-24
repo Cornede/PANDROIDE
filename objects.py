@@ -50,21 +50,24 @@ class Feuille(CircleObject):
                 self.take = True
         
         if self.dropped_in_nest:
-            x = randint(100, 650)
-            y = randint(120, 450) 
-            self.hide();
-            self.unregister();
-            self.set_coordinates(x, y)
-            b = self.can_register()
-            while(b==False):
-                  x = randint(100, 650)
-                  y = randint(120, 450) 
-                  self.set_coordinates(x, y)
-                  b = self.can_register()
-            self.register()
-            self.show()
-            self.dropped_in_nest = False
-            self.take = True
+            
+            self.cur_regrow -= 1
+            if self.cur_regrow <= 0:
+                x = randint(100, 650)
+                y = randint(120, 450) 
+                self.hide();
+                self.unregister();
+                self.set_coordinates(x, y)
+                b = self.can_register()
+                while(b==False):
+                      x = randint(100, 650)
+                      y = randint(120, 450) 
+                      self.set_coordinates(x, y)
+                      b = self.can_register()
+                self.register()
+                self.show()
+                self.dropped_in_nest = False
+                self.take = True
                  
     def respawn(self, x, y):
         self.new_x = x
@@ -78,7 +81,7 @@ class Feuille(CircleObject):
                     c.setObjCollected(True)
                     c.setCanInstantDrop(True)
                     c.id_object_transported = self.id # on donne l'identifiant de l'objet au robot qui le transporte
-                    
+                    c.objects_transported.append(self.id)
                     #self.nbRobot +=1 # elle a été pris par un robot supplémentaire
                     #self.cur_regrow = self.regrow_time
                     self.hide()
