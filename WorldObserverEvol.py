@@ -115,8 +115,8 @@ class WorldObserverEvol(WorldObserver):
                 p = f.position
                 while (p[0] == x and p[1] == y):
                      x = randint(100, 650)
-                     y = randint(120, 450) 
-            
+                     y = randint(120, 450)
+                           
             
             obj.set_coordinates(x, y)
             b = obj.can_register()
@@ -127,6 +127,8 @@ class WorldObserverEvol(WorldObserver):
                   b = obj.can_register()   
                   
             obj = self.rob.add_object(obj)
+            obj.x = x
+            obj.y = y
             obj.show()
             obj.register()
             self.next_id_obj += 1
@@ -153,20 +155,20 @@ class WorldObserverEvol(WorldObserver):
             x = p[0]
             y = p[1]
             
-            
+            """
             for obj in self.feuille:
                 for id in c.objects_transported :
                     if (obj.id == id):
-                         p = obj.position
+                         #p = obj.position
                          if (obj.dropped_in_nest == True):
                              d = 0
                          else :
-                             d = (((p[1]-nestY)**2)-Xmin)/(Xmax-Xmin)
+                             d = (((obj.y-nestY)**2)-Xmin)/(Xmax-Xmin)
                          i = c.objects_transported.index(id)
                          c.object_fitness[i] = max(1-d, c.object_fitness[i])
                          
             c.fitness = np.sum(c.object_fitness)
-                         
+            """             
 
             if(c.getCanInstantDrop()==True and c.getObjCollected()): # Si on a un objet on peut le lacher 
 
@@ -183,8 +185,8 @@ class WorldObserverEvol(WorldObserver):
                                 obj.cur_regrow = obj.regrow_time
                          
                         #c.id_object = 0
-                        #c.fitness += 3500
-                        #c.fitness -= c.s
+                        c.fitness += 3500
+                        c.fitness -= c.s
                         c.s = 0
                         self.reference_function += 1
                         c.id_object_transported=0
@@ -202,6 +204,8 @@ class WorldObserverEvol(WorldObserver):
                             obj.hide()
                             obj.unregister()
                             obj.set_coordinates(x, y)
+                            obj.x = x
+                            obj.y = y
                             obj.register()
                             obj.show()
                             obj.take = True
@@ -221,7 +225,7 @@ class WorldObserverEvol(WorldObserver):
                             y = p[1]
                             obj.dropped = True
                             obj.cur_regrow = obj.regrow_time
-                            obj.respawn(x,y)
+                            obj.respawn(x,y)                            
                             obj.take = True
                     c.s = 0
                     c.setObjCollected(False)
@@ -264,7 +268,9 @@ class WorldObserverEvol(WorldObserver):
                   y = randint(120, 450) 
                   obj.set_coordinates(x, y)
                   b = obj.can_register()
-                  
+            
+            obj.x = x
+            obj.y = y      
             obj.register()
             obj.show()
             obj.reset()

@@ -127,7 +127,7 @@ class EvolController(Controller):
         dists = np.asarray(self.get_all_distances())
 
         #l'agent a collecte un objet distance euclidienne au nid
-        """
+        
         if self.getObjCollected():
             if(y>=nestY): # on est dans la zone du nid donc la distance euclidienne est de 1
                 self.fitness += 0
@@ -135,7 +135,7 @@ class EvolController(Controller):
             else: # Sinon distance euclidienne classique
                 d = (((y-nestY)**2)-Xmin)/(Xmax-Xmin) # on normalise
                 self.s += 1-d #nid
-                self.fitness += 1-d"""
+                self.fitness += 1-d
             
             
         # fitness avec distance au zone des feuilles
